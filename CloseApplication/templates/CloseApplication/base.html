@@ -4,73 +4,66 @@
     <title>{% block title %}{% endblock %}</title>
     {% load static %}
     <link rel = "stylesheet" href="{% static 'CloseApplication/base.css' %}">
-    <link rel = "stylesheet" href="{% static 'CloseApplication/style.css' %}">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'CloseApplication/bootstrap.min.js' %}"></script>
+    <script src="{% static 'CloseApplication/popper.min.js' %}"></script>
+    <script src="{% static 'CloseApplication/jquery-3.3.1.min.js' %}"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     {% block extrahead %}{% endblock extrahead %}
     {% block extra_js %}{% endblock extra_js %}
 </head>
 <body>
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    <div class="suiteBar s4-notdlg">
-    </div>
-    <div class="customGBSHomeRibbon s4-notdlg">
-        <a href="#">Home</a>
-        <div class="dropdown">
-            <button class="dropbtn">My List Views 
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a href="#">Summary Page</a>
-                <a href="#">Journal Entry Checklist</a>
-                <a href="#">Task Checklist</a>
-            </div>
-        </div> 
-        
-        <div class="dropdown">
-            <button class="dropbtn">Team List Views 
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a href="#">Summary Page</a>
-                <a href="#">Journal Entry Checklist</a>
-                <a href="#">Task Checklist</a>
-            </div>
-        </div> 
-        
-        <div class="dropdown">
-            <button class="dropbtn">Approval List Views 
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a href="#">Journal Entry Approvals</a>
-                <a href="#">Account Reconciliations</a>
-            </div>
-        </div> 
-    
-        <div class="dropdown">
-            <button class="dropbtn">Close Status 
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a href="#">Close Summary Lists</a>
-                <a href="#">1087</a>
-                <a href="#">US02</a>
-                <a href="#">US05</a>
-            </div>
-        </div> 
-        <a href="#">Control Panel</a>
-    </div> 
-    <a href="{% url 'todo:lists' %}">Todo Lists</a>
-    <a href="{% url 'todo:mine' %}">My Tasks</a>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Tasks</a>
+            </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="#">Account Balances</a>
+            </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="#">Journal Entries</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+
+          <form class="form-inline my-2 my-lg-0 float-right">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+
+        </div>
+      </nav>
+      <br>
     <div class="page-wrap">
         {% block content %}{% endblock %}
     </div>
@@ -78,13 +71,5 @@
     <footer class="site-footer">
             footer information
     </footer>
-    <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 </body>
 </html>

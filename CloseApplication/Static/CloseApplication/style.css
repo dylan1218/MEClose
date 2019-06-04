@@ -1,6 +1,7 @@
 .page-wrap{
     z-index: 1;
 }
+/*
 th {
     background: #0B6FA4;
     border-bottom: 5px solid #FFFFFF;
@@ -23,6 +24,7 @@ tr:nth-child(even){
 tr:hover {
     background-color: #ddd;
 }
+*/
 .open-button {
     background-color: #555;
     color: white;

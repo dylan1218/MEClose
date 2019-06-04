@@ -8,6 +8,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('Task_Checklist/', views.taskList, name='taskList'),
+    path('accountRecList/', views.accountRecList, name='accountRecList'),
 ]
 
 #path takes arguments (Name path for URL, function from views that handles the html file, and description)
