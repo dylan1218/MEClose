@@ -1,0 +1,39 @@
+{% extends "CloseApplication/base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'CloseApplication/style.css' %}">
+{% block title %}name of the site{% endblock %}
+{% block content %}
+    {% if latest_question_list %}
+        <table class ="MonthEndTaskChecklistTable" style="width:100%">
+            <tr>
+                <th></th>
+                <th>Task ID</th>
+                <th>Description</th>
+                <th>Period</th>
+                <th>Year</th>
+                <th>Occurence</th>
+                <th>Owner ID</th>
+                <th>Status</th>
+                <th>Journal Entry?</th>
+                <th>Date Created</th>
+            </tr>
+            {% for tableValue in TaskChecklist_Values %}
+            <tr>
+                <td><button class="open-button" onclick="openForm()">Edit</button></td>
+                <td>{{ tableValue.taskId }}</td>
+                <td>{{ tableValue.taskDescription }}</td>
+                <td>{{ tableValue.taskPeriod }}</td>
+                <td>{{ tableValue.taskYear }}</td>
+                <td>{{ tableValue.get_taskOccurence_display }}</td>
+                <td>{{ tableValue.taskOwnerId }}</td>
+                <td>{{ tableValue.get_taskStatus_display }}</td>
+                <td>{{ tableValue.isJE }}</td>
+                <td>{{ tableValue.pub_date }}</td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+{% endblock %}
