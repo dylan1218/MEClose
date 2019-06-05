@@ -1,35 +1,38 @@
 {% extends "CloseApplication/base.html" %}
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'CloseApplication/style.css' %}">
 {% block title %}name of the site{% endblock %}
 {% block content %}
-        <table class ="MonthEndTaskChecklistTable" style="width:100%">
-            <tr>
-                <th></th>
-                <th>Entity</th>
-                <th>Account Number</th>
-                <th>Account Description</th>
-                <th>Balance for Period (Month Ended/As of)</th>
-                <th>Balance for Prior Month (Month Ended/As of)</th>
-                <th>Year</th>
-                <th>Month</th>
-                <th>Reconciled Status</th>
-                <th>Required</th>
-                <th>Owner</th>
-                <th>Reviewer</th>
-            </tr>
+        <table class ="table table-striped table-bordered table-hover" id="accountRecListTable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Entity</th>
+                    <th>Account Number</th>
+                    <th>Account Description</th>
+                    <th>Balance for Period (Month Ended/As of)</th>
+                    <th>Balance for Prior Month (Month Ended/As of)</th>
+                    <th>Year</th>
+                    <th>Month</th>
+                    <th>Reconciled Status</th>
+                    <th>Required</th>
+                    <th>Owner</th>
+                    <th>Reviewer</th>
+                </tr>
+            </thead>
             {% for tableValue in accountRecList_Values %}
             <tr>
                 <td><button class="open-button" onclick="openForm()">Edit</button></td>
-                <td>{{ tableValue.taskId }}</td>
-                <td>{{ tableValue.taskDescription }}</td>
-                <td>{{ tableValue.taskPeriod }}</td>
-                <td>{{ tableValue.taskYear }}</td>
-                <td>{{ tableValue.get_taskOccurence_display }}</td>
-                <td>{{ tableValue.taskOwnerId }}</td>
-                <td>{{ tableValue.get_taskStatus_display }}</td>
-                <td>{{ tableValue.isJE }}</td>
-                <td>{{ tableValue.pub_date }}</td>
+                <td>{{ tableValue.entity }}</td>
+                <td>{{ tableValue.accountNumber }}</td>
+                <td>{{ tableValue.accountDescription }}</td>
+                <td>{{ tableValue.accountBalance }}</td>
+                <td>{{ tableValue.accountBalance }}</td> {# Need to create template condition to find previous month value#}
+                <td>{{ tableValue.reconciliationYear }}</td>
+                <td>{{ tableValue.reconciliationPeriod }}</td>
+                <td>{{ tableValue.reconciliationStatus }}</td>
+                <td>{{ tableValue.reconciliationStatus }}</td> {# To find a way to let user defined what is required or not #}
+                <td>{{ tableValue.reconciliationOwnerId }}</td>
+                <td>{{ tableValue.reconciliationOwnerId }}</td> {# To find a way to map owner to reviewer #}
             </tr>
             {% endfor %}
             

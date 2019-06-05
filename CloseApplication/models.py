@@ -21,6 +21,14 @@ statusChoices = (
     ('CT', 'Completed'), 
 )
 
+approvalChoices = (
+    ('Not Started', 'Not Started'),
+    ('Waiting on Support', 'Waiting on Support Upload'),
+    ('Rejected', 'In-Progress'),
+    ('Reverted', 'In-Progress'),
+    ('Approved', 'Completed'), 
+)
+
 periodChoices = (
     (1, "January"),
     (2, "February"),
@@ -39,6 +47,7 @@ binaryChoice = (
     ("Yes", "Yes"),
     ("No", "No"),
 )
+
 # Create your models here.
 
 class TaskChecklist(models.Model):
@@ -51,6 +60,8 @@ class TaskChecklist(models.Model):
     taskStatus = models.CharField(max_length=2, choices = statusChoices)
     isJE = models.CharField(max_length=3, choices=binaryChoice)
     pub_date = models.DateTimeField('date published')
+    due_date = models.DateField(("Due Date"), default=datetime.date.today)
+    entity = models.CharField(max_length=200, default="Select Entity") #this should be a user defined choice field
 
     def __str__(self):
         return self.taskDescription
@@ -58,35 +69,34 @@ class TaskChecklist(models.Model):
 class AccountReconciliationList(models.Model):
     accountNumber = models.CharField(max_length=50)
     accountDescription = models.CharField(max_length=200)
+    accountBalance = models.IntegerField(max_length=200, default=0)
     reconciliationYear = models.IntegerField(max_length=4)
     reconciliationPeriod = models.IntegerField(max_length=2, choices = periodChoices)
     reconciliationOwnerId = models.ForeignKey(User, on_delete=models.CASCADE) #to evaluate if this actually works
     reconciliationStatus = models.CharField(max_length=2, choices = statusChoices)
     pub_date = models.DateTimeField('date published')
+    due_date = models.DateField(("Due Date"), default=datetime.date.today)
+    entity = models.CharField(max_length=200, default="Select Entity") #this should be a user defined choice field
 
     def __str__(self):
         return self.accountDescription
 
-class Question(models.Model):
-    question_text = models.CharField(max_length=200) #.CharField describes field type of text, max 200
-    pub_date = models.DateTimeField('date published') #.DateTimeField describes field as date
-    
-    def __str__(self):
-        return self.question_text
-    def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
-    def was_published_yesterday(self):
-        return self.pub_date == timezone.now() - datetime.timedelta(days=1)
 
-#note I added was_published_yesterday
-    
 
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE) #each choice associated with a question
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
+class journalEntryApprovalList(models.Model):
+    entity = models.CharField(max_length=200, default="Select Entity") #this should be a user defined choice field
+    entryNumber = models.CharField(max_length=200)
+    entryReference = models.CharField(max_length=200)
+    entryDescription = models.CharField(max_length=200)
+    postingDate = models.DateTimeField('date posted to GL')
+    entryReversed = models.BooleanField(default=False)
+    reversalNumber = models.CharField(max_length=200, default=None)
+    postingUsername = models.CharField(max_length=200)
+    postingReviewer = models.CharField(max_length=200) #user defined user-reviewer mapping fields should determine
+    supportStatus = models.BooleanField(default=False)
+    approvalStatus = models.BooleanField(default=False)
+    approvalStatus_Description = models.CharField(max_length=200, choices = approvalChoices)
+    approverComments = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.choice_text
-#each subclass of django.db.models.Model (i.e. Question/Choice) takes variables
-#which represent database field names
+        return self.entryDescription
