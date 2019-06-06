@@ -3,17 +3,28 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
     {% load static %}
-    <link rel = "stylesheet" href="{% static 'CloseApplication/base.css' %}">
     <script src="{% static 'CloseApplication/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'CloseApplication/bootstrap.min.js' %}"></script>
     <script src="{% static 'CloseApplication/popper.min.js' %}"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel = "stylesheet" href="{% static 'CloseApplication/jquery.dataTables.min.css' %}">
+    <link rel="stylesheet" href="{% static 'CloseApplication/jquery.dataTables.min.css' %}">
     <script src="{% static 'CloseApplication/jquery.dataTables.min.js' %}"></script>
+
     {# custom JS files referenced below #}
     <script src="{% static 'CloseApplication/customJS/accountRecList.js' %}"></script>
     <script src="{% static 'CloseApplication/customJS/Task_Checklist.js' %}"></script>
     <script src="{% static 'CloseApplication/customJS/entryApprovalList.js' %}"></script>
+
+    {# for summary page #}
+    <script src="{% static 'CloseApplication/pace.min.js' %}"></script>
+    <script src="{% static 'CloseApplication/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'CloseApplication/coreui.min.js' %}"></script>
+    <script src="{% static 'CloseApplication/Chart.min.js' %}" class="view-script"></script>
+    <script src="{% static 'CloseApplication/custom-tooltips.min.js' %}" class="view-script"></script>
+    <script src="{% static 'CloseApplication/main.js' %}" class="view-script"></script>
+    <link rel="stylesheet" href="{% static 'CloseApplication/coreui.min.css' %}"></script>
+    
+
     
     {% block extrahead %}{% endblock extrahead %}
     {% block extra_js %}{% endblock extra_js %}
@@ -28,7 +39,7 @@
     {% endif %}
 
       <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">MEClose</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
