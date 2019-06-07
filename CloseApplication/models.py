@@ -65,20 +65,32 @@ class TaskChecklist(models.Model):
     
     taskId = models.CharField(max_length=8)
     taskTBMapping = models.CharField(max_length=200, default="Not Assigned") #For assigning tasks to a TB FSLI
-    subTaskNumber = models.IntegerField(max_length=2, default=1) #For breaking out tasks into parts and having difference preparers. Note might have to create the subtask field under a separate database model
     taskDescription = models.CharField(max_length=200)
-    taskYear = models.IntegerField(max_length=4) #note - should remove taskYear and taskPeriod and create a method attribute based off of due date instead
+    taskYear = models.IntegerField(max_length=4) 
     taskPeriod = models.IntegerField(max_length=2, choices = periodChoices)
     taskOccurence = models.CharField(max_length=2, choices = occurenceChoices)
     taskOwnerId = models.ForeignKey(User, on_delete=models.PROTECT) #For documentation purposes we want to preserve who the owner of a task was, and as such protect is utilized to not allow deletion of the referenced object
-    taskStatus = models.CharField(max_length=2, choices = statusChoices)
+    taskStatus = models.CharField(max_length=2, choices = statusChoices) #should be a calculated field property based off of subtask status, to consider removing this
     isJE = models.CharField(max_length=3, choices=binaryChoice)
     pub_date = models.DateTimeField('date published')
     due_date = models.DateField(("Due Date"), default=datetime.date.today)
     entity = models.CharField(max_length=200, default="Select Entity") #this should be a user defined choice field
     
+    @property #@property decorater utilized to create a callable calculated "field" similar to other fields
+    def taskIdKey(self):
+        return self.taskId + self.taskPeriod + self.taskYear + self.entity
+
     def __str__(self):
-        return self.taskDescription
+        return self.taskId
+
+class subTaskChecklist(models.Model):
+    taskId = models.ForeignKey(TaskChecklist, related_name="taskId_taskId", on_delete=models.CASCADE) #this field is our associated between the parent task and subtask(s). Cascade is utilize to remove the subtasks if parent task is removed
+    subTaskNumber = models.IntegerField(max_length=2, default=1) #Maximum number of subtasks set to 99
+    subTaskDescription = models.CharField(max_length=200)
+    subTaskStatus = models.CharField(max_length=2, choices = statusChoices)
+    #Note I did not add additional fields as the related parent should contain this data 
+    def __str__(self):
+        return self.subTaskDescription
 
 class AccountReconciliationList(models.Model):
     accountNumber = models.CharField(max_length=50)

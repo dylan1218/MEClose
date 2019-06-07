@@ -19,6 +19,7 @@
                 <th>Date Created</th>
             </tr>
             </thead>
+            <tbody>
             {% for tableValue in TaskChecklist_Values %}
             <tr>
                 <td><button class="btn btn-indigo btn-rounded btn-sm m-0" onclick="openForm()">Edit</button></td>
@@ -32,8 +33,16 @@
                 <td>{{ tableValue.isJE }}</td>
                 <td>{{ tableValue.pub_date }}</td>
             </tr>
+                {% for subTableValue in subTasklist_Values %}
+                    {% if tableValue.taskId == subTableValue.taskId|stringformat:"s" %} {# "stringformat" filter property required as subTableValue.taskId type is foreign key vs. charfield on other table #}
+                        <tr>
+                            <td></td>
+                            <td colspan="9">subtask</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
-            
+        </tbody>
         </table>
     {% else %}
         <p>No polls are available.</p>
