@@ -64,7 +64,8 @@ class TaskChecklist(models.Model):
     )
     
     taskId = models.CharField(max_length=8)
-    subTaskNumber = models.IntegerField(max_length=2, default=1)
+    taskTBMapping = models.CharField(max_length=200, default="Not Assigned") #For assigning tasks to a TB FSLI
+    subTaskNumber = models.IntegerField(max_length=2, default=1) #For breaking out tasks into parts and having difference preparers. Note might have to create the subtask field under a separate database model
     taskDescription = models.CharField(max_length=200)
     taskYear = models.IntegerField(max_length=4) #note - should remove taskYear and taskPeriod and create a method attribute based off of due date instead
     taskPeriod = models.IntegerField(max_length=2, choices = periodChoices)
