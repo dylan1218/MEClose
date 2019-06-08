@@ -1,0 +1,16 @@
+{% extends "CloseApplication/base.html" %}
+
+{% block title %}Task Checklist{% endblock %}
+{% block content %}
+    
+    <p>{{ object.taskId }}</p>
+    <p>{{ object.taskDescription }}</p>
+    <p>{{ object.taskPeriod }}</p>
+    <p>{{ object.taskYear }}</p>
+    <p>{{ object.get_taskOccurence_display }}</p>
+    <p>{{ object.taskOwnerId }}</p>
+    <p>{{ object.get_taskStatus_display }}</p>
+    <p>{{ object.isJE }}</p>
+    <p>{{ object.pub_date }}</p>
+
+{% endblock %}

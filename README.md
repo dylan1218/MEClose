@@ -4,7 +4,7 @@
 1. python 3+
 1. git
 1. pip
-    1. django1. pip
+    1. django
     1. todo
 
 ## Windows setup
@@ -49,5 +49,3 @@ note: refer to the admin panel at http://127.0.0.1:8000/admin
 login: admin_brian
 
 password: password
-
-Collapse
