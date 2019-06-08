@@ -5,6 +5,7 @@
 1. git
 1. pip
     1. django
+    1. django
     1. todo
 
 ## Windows setup
