@@ -1,7 +1,8 @@
 {% extends "CloseApplication/base.html" %}
-{% load static %}
+
 {% block title %}name of the site{% endblock %}
 {% block content %}
+{% include "CloseApplication/listview_outline.html" %}
         <table class ="table table-striped table-bordered table-hover" id="accountRecListTable">
             <thead>
                 <tr>
@@ -19,7 +20,7 @@
                     <th>Reviewer</th>
                 </tr>
             </thead>
-            {% for tableValue in accountRecList_Values %}
+            {% for tableValue in object_list %}
             <tr>
                 <td><button class="open-button" onclick="openForm()">Edit</button></td>
                 <td>{{ tableValue.entity }}</td>

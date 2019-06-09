@@ -1,8 +1,8 @@
 {% extends "CloseApplication/base.html" %}
-{% load static %}
 
 {% block title %}name of the site{% endblock %}
 {% block content %}
+{% include "CloseApplication/listview_outline.html" %}
         <table class="table table-striped table-bordered table-hover" id="EntryApproval_ChecklistTable">
             <thead>
             <tr>
@@ -20,7 +20,7 @@
                 <th>Approval Comments</th>
             </tr>
             </thead>
-            {% for tableValue in journalEntryApprovalList_Values %}
+            {% for tableValue in object_list %}
             <tr>
                 <td><button class="btn btn-indigo btn-rounded btn-sm m-0" onclick="openForm()">Edit</button></td>
                 <td>{{ tableValue.entity }}</td>
