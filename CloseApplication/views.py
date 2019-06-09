@@ -8,6 +8,7 @@ from .models import journalEntryApprovalList
 from django.views.generic import ListView, DetailView 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import subTaskChecklist
+from django.shortcuts import redirect
 
 
 #these functions return a response to a given web page. Each of these functions coorespond
@@ -16,13 +17,55 @@ from .models import subTaskChecklist
 # class TaskChecklistList(ListView): #Not in use for now
 #     model = TaskChecklist
 
-class EntryApproval_List(ListView): #Not in use for now
+def redirect_view(request): #redirects to CloseSummary if at index URL
+    response = redirect('/ClosePortal/CloseSummary/')
+    return response
+
+class EntryApproval_List(ListView): 
     template_name = 'CloseApplication/entryapprovallist/entryapprovallist_list.html'
     model = journalEntryApprovalList
 
-class AccountRecList_List(ListView): #Not in use for now
+class EntryApprovalDetail(ListView): 
+    template_name = 'CloseApplication/entryapprovallist/entryapprovallist_detail.html'
+    model = journalEntryApprovalList
+
+class EntryApprovalCreate(ListView): 
+    template_name = 'CloseApplication/entryapprovallist/entryapprovallist_form.html'
+    model = journalEntryApprovalList
+    fields = '__all__'
+
+class EntryApprovalUpdate(ListView): 
+    template_name = 'CloseApplication/entryapprovallist/entryapprovallist_form.html'
+    model = journalEntryApprovalList
+    fields = '__all__'
+
+class EntryApprovalDelete(ListView): 
+    template_name = 'CloseApplication/entryapprovallist/entryapprovallist_delete.html'
+    model = journalEntryApprovalList
+
+#Start of AccountRecList views:
+class AccountRecList_List(ListView): 
     template_name = 'CloseApplication/accountreclist/accountreclist_list.html'
     model = AccountReconciliationList
+
+class AccountRecListDetail(DetailView): 
+    template_name = 'CloseApplication/accountreclist/accountreclist_detail.html'
+    model = AccountReconciliationList
+
+class AccountRecListCreate(CreateView): #Not in use for now
+    template_name = 'CloseApplication/accountreclist/accountreclist_form.html'
+    model = AccountReconciliationList
+    fields = '__all__'
+
+class AccountRecListUpdate(UpdateView):
+    template_name = 'CloseApplication/accountreclist/accountreclist_form.html'
+    model = TaskChecklist
+    fields = '__all__'
+
+class AccountRecListDelete(DeleteView): #Not in use for now
+    template_name = 'CloseApplication/accountreclist/accountreclist_delete.html'
+    model = AccountReconciliationList
+#End of AccountRecList views
 
 class TaskChecklistDetail(DetailView):
     template_name = 'CloseApplication/taskchecklist/taskchecklist_detail.html'
