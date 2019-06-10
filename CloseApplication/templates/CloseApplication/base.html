@@ -2,10 +2,12 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
+    {% block styles %}
+    {% endblock %}
     {% load static %}
     <script src="{% static 'CloseApplication/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'CloseApplication/bootstrap.min.js' %}"></script>
     <script src="{% static 'CloseApplication/popper.min.js' %}"></script>
+    <script src="{% static 'CloseApplication/bootstrap.min.js' %}"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">

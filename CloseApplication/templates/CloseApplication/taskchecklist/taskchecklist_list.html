@@ -24,7 +24,20 @@
                 {% with idTemplate_Hash="#group-of-rows"|add:forloopCounter %}
                     {% with idTemplate="group-of-rows"|add:forloopCounter %}
                     <tr data-toggle="collapse" data-target="{{ idTemplate_Hash }}">
-                        <td><button class="open-button" onclick="openForm()">+</button></td>
+                        <td>
+                                <div class="btn-group">
+                                        <button type="button" class="btn btn-primary">Action</button>
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="/ClosePortal/tasks/{{ tableValue.id }}">Detail</a>
+                                                <a class="dropdown-item" href="/ClosePortal/tasks/update/{{ tableValue.id }}">Edit</a>
+                                                <a class="dropdown-item" href="/ClosePortal/tasks/delete/{{ tableValue.id }}">Delete</a>
+                                        </div>
+                            </div>
+                        </td>
                         <td>{{ tableValue.taskId }}</td>
                         <td>{{ tableValue.taskDescription }}</td>
                         <td>{{ tableValue.taskPeriod }}</td>
@@ -34,13 +47,14 @@
                         <td>{{ tableValue.get_taskStatus_display }}</td>
                         <td>{{ tableValue.isJE }}</td>
                         <td>{{ tableValue.pub_date }}</td>
+                        <td style="display: none;">{{ tableValue.id }}</td>
                     </tr>
                         {% for subTableValue in subTasklist_Values %}
                             {% if tableValue.taskId == subTableValue.taskId|stringformat:"s" %} {# "stringformat" filter property required as subTableValue.taskId type is foreign key vs. charfield on other table #}
                             <tr id="{{ idTemplate }}">
                                 <td></td>
-                                <td colspan="9">{{ subTableValue.subTaskDescription }}</td>
-                                <td style="display: none;"></td>
+                                <td><button class="open-button" onclick="openForm()">(...)</button></td>
+                                <td colspan="8">{{ subTableValue.subTaskDescription }}</td>
                                 <td style="display: none;"></td>
                                 <td style="display: none;"></td>
                                 <td style="display: none;"></td>

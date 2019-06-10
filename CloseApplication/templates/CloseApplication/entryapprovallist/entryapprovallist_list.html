@@ -22,7 +22,20 @@
             </thead>
             {% for tableValue in object_list %}
             <tr>
-                <td><button class="btn btn-indigo btn-rounded btn-sm m-0" onclick="openForm()">Edit</button></td>
+                    <td>
+                            <div class="btn-group">
+                                    <button type="button" class="btn btn-primary">Action</button>
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                          </div>
+                        </div>
+                    </td>
                 <td>{{ tableValue.entity }}</td>
                 <td>{{ tableValue.entryNumber }}</td>
                 <td>{{ tableValue.entryReference }}</td>
