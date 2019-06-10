@@ -3,39 +3,53 @@
 {% block title %}name of the site{% endblock %}
 {% block content %}
 {% include "CloseApplication/listview_outline.html" %}
-        <table class ="table table-striped table-bordered table-hover" id="accountRecListTable">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Entity</th>
-                    <th>Account Number</th>
-                    <th>Account Description</th>
-                    <th>Balance for Period (Month Ended/As of)</th>
-                    <th>Balance for Prior Month (Month Ended/As of)</th>
-                    <th>Year</th>
-                    <th>Month</th>
-                    <th>Reconciled Status</th>
-                    <th>Required</th>
-                    <th>Owner</th>
-                    <th>Reviewer</th>
-                </tr>
-            </thead>
-            {% for tableValue in object_list %}
-            <tr>
-                <td><button class="open-button" onclick="openForm()">Edit</button></td>
-                <td>{{ tableValue.entity }}</td>
-                <td>{{ tableValue.accountNumber }}</td>
-                <td>{{ tableValue.accountDescription }}</td>
-                <td>{{ tableValue.accountBalance }}</td>
-                <td>{{ tableValue.accountBalance }}</td> {# Need to create template condition to find previous month value#}
-                <td>{{ tableValue.reconciliationYear }}</td>
-                <td>{{ tableValue.reconciliationPeriod }}</td>
-                <td>{{ tableValue.reconciliationStatus }}</td>
-                <td>{{ tableValue.reconciliationStatus }}</td> {# To find a way to let user defined what is required or not #}
-                <td>{{ tableValue.reconciliationOwnerId }}</td>
-                <td>{{ tableValue.reconciliationOwnerId }}</td> {# To find a way to map owner to reviewer #}
-            </tr>
-            {% endfor %}
-            
-        </table>
+<table class ="table table-striped table-bordered table-hover" id="accountRecListTable">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Entity</th>
+            <th>Account Number</th>
+            <th>Account Description</th>
+            <th>Balance for Period (Month Ended/As of)</th>
+            <th>Balance for Prior Month (Month Ended/As of)</th>
+            <th>Year</th>
+            <th>Month</th>
+            <th>Reconciled Status</th>
+            <th>Required</th>
+            <th>Owner</th>
+            <th>Reviewer</th>
+        </tr>
+    </thead>
+    {% for tableValue in object_list %}
+    <tr>
+        <td>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary">
+                Action
+                </button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/ClosePortal/accountrecs/{{ tableValue.id }}">Detail</a>
+                    <a class="dropdown-item" href="/ClosePortal/accountrecs/update/{{ tableValue.id }}">Edit</a>
+                    <a class="dropdown-item" href="/ClosePortal/accountrecs/delete/{{ tableValue.id }}">Delete</a>
+                </div>
+            </div>
+        </td>
+        <td>{{ tableValue.entity }}</td>
+        <td>{{ tableValue.accountNumber }}</td>
+        <td>{{ tableValue.accountDescription }}</td>
+        <td>{{ tableValue.accountBalance }}</td>
+        <td>{{ tableValue.accountBalance }}</td> {# Need to create template condition to find previous month value#}
+        <td>{{ tableValue.reconciliationYear }}</td>
+        <td>{{ tableValue.reconciliationPeriod }}</td>
+        <td>{{ tableValue.reconciliationStatus }}</td>
+        <td>{{ tableValue.reconciliationStatus }}</td> {# To find a way to let user defined what is required or not #}
+        <td>{{ tableValue.reconciliationOwnerId }}</td>
+        <td>{{ tableValue.reconciliationOwnerId }}</td> {# To find a way to map owner to reviewer #}
+    </tr>
+    {% endfor %}            
+</table>
 {% endblock %}

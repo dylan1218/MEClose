@@ -3,14 +3,17 @@
 {% block title %}Task Checklist{% endblock %}
 {% block content %}
     
-    <p>{{ object.taskId }}</p>
-    <p>{{ object.taskDescription }}</p>
-    <p>{{ object.taskPeriod }}</p>
-    <p>{{ object.taskYear }}</p>
-    <p>{{ object.get_taskOccurence_display }}</p>
-    <p>{{ object.taskOwnerId }}</p>
-    <p>{{ object.get_taskStatus_display }}</p>
-    <p>{{ object.isJE }}</p>
-    <p>{{ object.pub_date }}</p>
+    <p>{{ object.entity }}</p>
+    <p>{{ object.entryNumber }}</p>
+    <p>{{ object.entryReference }}</p>
+    <p>{{ object.entryDescription }}</p>
+    <p>{{ object.postingDate }}</p>
+    <p>{{ object.entryReversed }}</p>
+    <p>{{ object.reversalNumber }}</p>
+    <p>{{ object.postingUsername }}</p>
+    <p>{{ object.supportStatus }}</p>
+    <p>{{ object.approvalStatus }}</p>
+    <p>{{ object.approvalStatus_Description }}</p>
+    <p>{{ object.approverComments }}</p>
 
 {% endblock %}

@@ -25,21 +25,21 @@ class EntryApproval_List(ListView):
     template_name = 'CloseApplication/entryapprovallist/entryapprovallist_list.html'
     model = journalEntryApprovalList
 
-class EntryApprovalDetail(ListView): 
+class EntryApprovalDetail(DetailView): 
     template_name = 'CloseApplication/entryapprovallist/entryapprovallist_detail.html'
     model = journalEntryApprovalList
 
-class EntryApprovalCreate(ListView): 
+class EntryApprovalCreate(CreateView): 
     template_name = 'CloseApplication/entryapprovallist/entryapprovallist_form.html'
     model = journalEntryApprovalList
     fields = '__all__'
 
-class EntryApprovalUpdate(ListView): 
+class EntryApprovalUpdate(UpdateView): 
     template_name = 'CloseApplication/entryapprovallist/entryapprovallist_form.html'
     model = journalEntryApprovalList
     fields = '__all__'
 
-class EntryApprovalDelete(ListView): 
+class EntryApprovalDelete(DeleteView): 
     template_name = 'CloseApplication/entryapprovallist/entryapprovallist_delete.html'
     model = journalEntryApprovalList
 

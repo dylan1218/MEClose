@@ -21,7 +21,11 @@ urlpatterns = [
     path('accountrecs/update/<int:pk>', views.AccountRecListUpdate.as_view(), name='accountsrecs_update'),
     path('accountrecs/delete/<int:pk>', views.AccountRecListDelete.as_view(), name='accountsrecs_delete'),
     #entryapprovals paths
-    path('entryapprovals/', views.EntryApproval_List.as_view(), name='EntryApprovalList'),
+    path('entryapprovals/', views.EntryApproval_List.as_view(), name='entryapprovallist'),
+    path('entryapprovals/<int:pk>', views.EntryApprovalDetail.as_view(), name='entryapprovallist_detail'),
+    path('entryapprovals/create', views.EntryApprovalCreate.as_view(), name='entryapprovallist_create'),
+    path('entryapprovals/update/<int:pk>', views.EntryApprovalUpdate.as_view(), name='entryapprovallist_update'),
+    path('entryapprovals/delete/<int:pk>', views.EntryApprovalDelete.as_view(), name='entryapprovallist_delete'),
 ]
 
 #path takes arguments (Name path for URL, function from views that handles the html file, and description)
