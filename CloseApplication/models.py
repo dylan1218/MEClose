@@ -34,13 +34,26 @@ binaryChoice = (
     ("No", "No"),
 )
 
+class userDefinedEntity(models.Model):
+    entity = models.CharField(max_length=200, default="Select Entity")
+    
+    def __str__(self):
+        return self.entity
+
 #Idea - Add a field to mapp all tasks, reconciliations and JE's to a FSLI
 class userDefinedTeam(models.Model):
     team = models.CharField(max_length=200)
     teamOwner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="user_teamOwner")
+    entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, related_name="entity_userDefinedTeam", default=1)
         
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['team', 'entity'], name='unique_EntityTeam')
+        ]
+    
     def __str__(self):
-        return self.team
+        return str(self.team) + "-" + str(self.entity)
+    
 
 # Create your models here. For freignkeys below to consider adding limit_choices_to={'is_staff': True} to prevent admins being utilized as values for these fields
 class userReviewerMapping(models.Model):
@@ -49,7 +62,13 @@ class userReviewerMapping(models.Model):
     userManager = models.ForeignKey(User, on_delete=models.PROTECT, related_name="user_Manager") 
     userReviewer = models.ForeignKey(User, on_delete=models.PROTECT, related_name="user_Reviewer") #the assigned reviewer can be different than the direct manager (i.e. Accountant -> Senior Accountant -> Manager, where senior reviews)
     systemIdentifier = models.CharField(max_length=200)
+    entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, related_name="entity_userReviewerMapping", default=1)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'entity'], name='unique_EntityUser')
+        ]
+        
     def __str__(self):
         return self.systemIdentifier
 
@@ -74,11 +93,17 @@ class TaskChecklist(models.Model):
     isJE = models.CharField(max_length=3, choices=binaryChoice)
     pub_date = models.DateTimeField('date published')
     due_date = models.DateField(("Due Date"), default=datetime.date.today)
-    entity = models.CharField(max_length=200, default="Select Entity") #this should be a user defined choice field
+    entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, related_name="entity_TaskChecklist", default=1)
+
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['taskId', 'entity'], name='unique_EntityUser')
+        ]
     
     @property #@property decorater utilized to create a callable calculated "field" similar to other fields
     def taskIdKey(self):
-        return self.taskId + self.taskPeriod + self.taskYear + self.entity
+        return self.taskId + self.taskPeriod + self.taskYear
 
     def __str__(self):
         return self.taskId
@@ -102,7 +127,7 @@ class AccountReconciliationList(models.Model):
     reconciliationStatus = models.CharField(max_length=2, choices = statusChoices)
     pub_date = models.DateTimeField('date published')
     due_date = models.DateField(("Due Date"), default=datetime.date.today)
-    entity = models.CharField(max_length=200, default="Select Entity") #this should be a user defined choice field
+    entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, related_name="entity_AccountReconciliationList", default=1)
 
     def __str__(self):
         return self.accountDescription
@@ -118,19 +143,18 @@ class journalEntryApprovalList(models.Model):
         ('Approved', 'Completed'), 
     )
 
-    entity = models.CharField(max_length=200, default="Select Entity") #this should be a user defined choice field
+    entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, related_name="entity_journalEntryApprovalList", default=1)
     entryNumber = models.CharField(max_length=200)
     entryReference = models.CharField(max_length=200)
     entryDescription = models.CharField(max_length=200)
     postingDate = models.DateTimeField('date posted to GL')
     entryReversed = models.BooleanField(default=False)
-    reversalNumber = models.CharField(max_length=200, default=None)
+    reversalNumber = models.CharField(max_length=200, blank=True)
     postingUsername = models.CharField(max_length=200)
-    postingReviewer = models.CharField(max_length=200) #user defined user-reviewer mapping fields should determine
     supportStatus = models.BooleanField(default=False)
     approvalStatus = models.BooleanField(default=False)
     approvalStatus_Description = models.CharField(max_length=200, choices = approvalChoices)
-    approverComments = models.CharField(max_length=200)
+    approverComments = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.entryDescription

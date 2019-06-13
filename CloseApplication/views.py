@@ -21,6 +21,10 @@ def redirect_view(request): #redirects to CloseSummary if at index URL
     response = redirect('/ClosePortal/CloseSummary/')
     return response
 
+def summaryView(request):
+    return render(request, 'CloseApplication/CloseSummary.html')
+
+#Start of EntryApproval_List views:
 class EntryApproval_List(ListView): 
     template_name = 'CloseApplication/entryapprovallist/entryapprovallist_list.html'
     model = journalEntryApprovalList
@@ -65,8 +69,9 @@ class AccountRecListUpdate(UpdateView):
 class AccountRecListDelete(DeleteView): #Not in use for now
     template_name = 'CloseApplication/accountreclist/accountreclist_delete.html'
     model = AccountReconciliationList
-#End of AccountRecList views
 
+
+#Start of TaskChecklistDetail views:
 class TaskChecklistDetail(DetailView):
     template_name = 'CloseApplication/taskchecklist/taskchecklist_detail.html'
     model = TaskChecklist
@@ -113,22 +118,17 @@ def taskList(request):
 #     #return HttpResponse(template.render(context, request)) is the same as return render(request, 'polls/index.html', context)
 #     return render(request, 'CloseApplication/index.html', context)
 
-def accountRecList(request):
-    accountRecList_Fields = AccountReconciliationList._meta.get_fields(include_hidden=False)
-    accountRecList_Values = AccountReconciliationList.objects.all()
-    #template = loader.get_template('polls/index.html')
-    context = { #context represents the variables passed to the provided template
-        'accountRecList_Fields': accountRecList_Fields,
-        'accountRecList_Values': accountRecList_Values,
-    }
-    #return HttpResponse(template.render(context, request)) is the same as return render(request, 'polls/index.html', context)
-    return render(request, 'CloseApplication/accountRecList.html', context)
-    #Render takes argument render(request, Name of html template path, context varialbes)
+#def accountRecList(request):
+#    accountRecList_Fields = AccountReconciliationList._meta.get_fields(include_hidden=False)
+#    accountRecList_Values = AccountReconciliationList.objects.all()
+#    #template = loader.get_template('polls/index.html')
+#    context = { #context represents the variables passed to the provided template
+#        'accountRecList_Fields': accountRecList_Fields,
+#        'accountRecList_Values': accountRecList_Values,
+#    }
+#    #return HttpResponse(template.render(context, request)) is the same as return render(request, 'polls/index.html', context)
+#    return render(request, 'CloseApplication/accountRecList.html', context)
+#    #Render takes argument render(request, Name of html template path, context varialbes)
 
-
-
-def summaryView(request):
-    #return HttpResponse(template.render(context, request)) is the same as return render(request, 'polls/index.html', context)
-    return render(request, 'CloseApplication/CloseSummary.html')
 
 

@@ -18,7 +18,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path('ClosePortal/', include('CloseApplication.urls')), #note to self, change 'polls/' to other url for testing
-    path('polls/', include('polls.urls')), #note to self, change 'polls/' to other url for testing
     path('admin/', admin.site.urls),
-    path('todo/', include('todo.urls', namespace="todo")),
 ]
