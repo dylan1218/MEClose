@@ -1,4 +1,5 @@
 import datetime
+import os
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -128,7 +129,10 @@ class AccountReconciliationList(models.Model):
     pub_date = models.DateTimeField('date published')
     due_date = models.DateField(("Due Date"), default=datetime.date.today)
     entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, related_name="entity_AccountReconciliationList", default=1)
-
+    
+    def File_Path(instance, filename):
+        return os.path.join(str(instance.entity), str(instance.reconciliationYear), str(instance.reconciliationPeriod), str(instance.accountNumber), filename)
+    docfile = models.FileField(upload_to=File_Path, default=False) #Note: To consider a way to set the default value equal to a dynamic file template which a user can download, and upload once completed
     def __str__(self):
         return self.accountDescription
 

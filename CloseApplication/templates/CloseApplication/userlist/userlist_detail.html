@@ -1,0 +1,19 @@
+{% extends "CloseApplication/base.html" %}
+
+{% block title %}Task Checklist{% endblock %}
+{% block content %}
+    
+    <p>{{ object.entity }}</p>
+    <p>{{ object.entryNumber }}</p>
+    <p>{{ object.entryReference }}</p>
+    <p>{{ object.entryDescription }}</p>
+    <p>{{ object.postingDate }}</p>
+    <p>{{ object.entryReversed }}</p>
+    <p>{{ object.reversalNumber }}</p>
+    <p>{{ object.postingUsername }}</p>
+    <p>{{ object.supportStatus }}</p>
+    <p>{{ object.approvalStatus }}</p>
+    <p>{{ object.approvalStatus_Description }}</p>
+    <p>{{ object.approverComments }}</p>
+
+{% endblock %}

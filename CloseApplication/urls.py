@@ -26,6 +26,24 @@ urlpatterns = [
     path('entryapprovals/create', views.EntryApprovalCreate.as_view(), name='entryapprovallist_create'),
     path('entryapprovals/update/<int:pk>', views.EntryApprovalUpdate.as_view(), name='entryapprovallist_update'),
     path('entryapprovals/delete/<int:pk>', views.EntryApprovalDelete.as_view(), name='entryapprovallist_delete'),
+    #entitylist paths
+    path('entities/', views.Entity_List.as_view(), name='entity_list'),
+    path('entities/<int:pk>', views.EntityDetail.as_view(), name='entity_detail'),
+    path('entities/create', views.EntityCreate.as_view(), name='entity_create'),
+    path('entities/update/<int:pk>', views.EntityUpdate.as_view(), name='entity_update'),
+    path('entities/delete/<int:pk>', views.EntityDelete.as_view(), name='entity_delete'),
+    #userlist paths
+    path('users/', views.UserList_List.as_view(), name='userlist'),
+    path('users/<int:pk>', views.UserListDetail.as_view(), name='userlist_detail'),
+    path('users/create', views.UserListCreate.as_view(), name='userlist_create'),
+    path('users/update/<int:pk>', views.UserListUpdate.as_view(), name='userlist_update'),
+    path('users/delete/<int:pk>', views.UserListDelete.as_view(), name='userlist_delete'),
+    #teamlist paths
+    path('teams/', views.TeamList_List.as_view(), name='teamlist'),
+    path('teams/<int:pk>', views.TeamListDetail.as_view(), name='teamlist_detail'),
+    path('teams/create', views.TeamListCreate.as_view(), name='teamlist_create'),
+    path('teams/update/<int:pk>', views.TeamListUpdate.as_view(), name='teamlist_update'),
+    path('teams/delete/<int:pk>', views.TeamListDelete.as_view(), name='teamlist_delete'),
 ]
 
 #path takes arguments (Name path for URL, function from views that handles the html file, and description)
