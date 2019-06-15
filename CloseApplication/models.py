@@ -159,6 +159,10 @@ class journalEntryApprovalList(models.Model):
     approvalStatus = models.BooleanField(default=False)
     approvalStatus_Description = models.CharField(max_length=200, choices = approvalChoices)
     approverComments = models.CharField(max_length=200, blank=True)
+    
+    def File_Path(instance, filename):
+        return os.path.join("Journal Entries", str(instance.entity), str(instance.postingDate.strftime("%Y")), str(instance.postingDate.strftime("%m")), str(instance.entryNumber), filename)
+    docfile = models.FileField(upload_to=File_Path, default=False) #Note: To consider a way to set the default value equal to a dynamic file template which a user can download, and upload once completed
 
     def __str__(self):
         return self.entryDescription

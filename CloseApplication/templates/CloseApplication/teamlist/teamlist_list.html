@@ -7,16 +7,8 @@
         <tr>
             <th></th>
             <th>Entity</th>
-            <th>Entry Number</th>
-            <th>Reference</th>
-            <th>Description</th>
-            <th>Posting Date</th>
-            <th>Reversed?</th>
-            <th>Reversal Number</th>
-            <th>Posting Username</th>
-            <th>Reviewer Username</th>
-            <th>Approval Status</th>
-            <th>Approval Comments</th>
+            <th>Team</th>
+            <th>Team Owner</th>
         </tr>
     </thead>
     {% for tableValue in object_list %}
@@ -36,16 +28,8 @@
             </div>
         </td>
         <td>{{ tableValue.entity }}</td>
-        <td>{{ tableValue.entryNumber }}</td>
-        <td>{{ tableValue.entryReference }}</td>
-        <td>{{ tableValue.entryDescription }}</td>
-        <td>{{ tableValue.postingDate }}</td>
-        <td>{{ tableValue.entryReversed }}</td>
-        <td>{{ tableValue.reversalNumber }}</td>
-        <td>{{ tableValue.postingUsername }}</td>
-        <td>{{ tableValue.postingReviewer }}</td>
-        <td>{{ tableValue.approvalStatus }}</td>
-        <td>{{ tableValue.approvalStatus_Description }}</td>
+        <td>{{ tableValue.team }}</td>
+        <td>{{ tableValue.teamOwner }}</td>
     </tr>
     {% endfor %}
 </table>
