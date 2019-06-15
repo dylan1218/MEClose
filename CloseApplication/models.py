@@ -1,6 +1,7 @@
 import datetime
 import os
 from django.db import models
+from django.db.models import Count
 from django.utils import timezone
 from django.contrib.auth.models import User
 #Note to self -- this is where you'll define the database schema
@@ -90,7 +91,6 @@ class TaskChecklist(models.Model):
     taskPeriod = models.IntegerField(max_length=2, choices = periodChoices)
     taskOccurence = models.CharField(max_length=2, choices = occurenceChoices)
     taskOwnerId = models.ForeignKey(User, on_delete=models.PROTECT) #For documentation purposes we want to preserve who the owner of a task was, and as such protect is utilized to not allow deletion of the referenced object
-    taskStatus = models.CharField(max_length=2, choices = statusChoices) #should be a calculated field property based off of subtask status, to consider removing this
     isJE = models.CharField(max_length=3, choices=binaryChoice)
     pub_date = models.DateTimeField('date published')
     due_date = models.DateField(("Due Date"), default=datetime.date.today)
@@ -101,7 +101,44 @@ class TaskChecklist(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['taskId', 'entity'], name='unique_EntityUser')
         ]
-    
+
+    @property
+    def aggregateStatus(self):
+        try:
+            related_SubTask_Model = TaskChecklist.objects.prefetch_related("taskId_taskId").all()
+            related_SubTask_Model_Groupby = related_SubTask_Model[0].taskId_taskId.all().values("subTaskStatus").annotate(Count("subTaskStatus")) #-1 to bring pk down relative to 0th based index
+            
+            not_Started_List = list(related_SubTask_Model_Groupby.filter(subTaskStatus="NS").values_list("subTaskStatus__count", flat=True))
+            in_Progress_List = list(related_SubTask_Model_Groupby.filter(subTaskStatus="IP").values_list("subTaskStatus__count", flat=True))
+            completed_List = list(related_SubTask_Model_Groupby.filter(subTaskStatus="CT").values_list("subTaskStatus__count", flat=True))
+
+            if len(not_Started_List) > 0:
+                not_Started_Count = not_Started_List[0]
+            else:
+                not_Started_Count = 0
+            
+            if len(in_Progress_List) > 0:
+                in_Progress_Count = in_Progress_List[0]
+            else:
+                in_Progress_Count = 0
+            
+            if len(completed_List) > 0:
+                completed_Count = completed_List[0]
+            else:
+                completed_Count = 0
+
+            if ( (not_Started_Count + in_Progress_Count + completed_Count) == 0 ) or ( (not_Started_Count > 0) and ((in_Progress_Count + completed_Count) == 0) ) :
+                return "Not Started"
+            elif in_Progress_Count > 0:
+                return "In Progress"
+            elif not_Started_Count > 0 and (in_Progress_Count + completed_Count) == 0:
+                return "Not Started"
+            else:
+                return "Completed"
+        except:
+            return "Not Started"
+
+        
     @property #@property decorater utilized to create a callable calculated "field" similar to other fields
     def taskIdKey(self):
         return self.taskId + self.taskPeriod + self.taskYear

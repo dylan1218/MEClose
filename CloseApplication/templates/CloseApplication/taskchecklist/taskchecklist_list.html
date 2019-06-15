@@ -14,9 +14,8 @@
             <th>Year</th>
             <th>Occurence</th>
             <th>Owner ID</th>
-            <th>Status</th>
             <th>Journal Entry</th>
-            <th>Date Created</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody class="bg-white">
@@ -46,9 +45,8 @@
             <td>{{ tableValue.taskYear }}</td>
             <td>{{ tableValue.get_taskOccurence_display }}</td>
             <td>{{ tableValue.taskOwnerId }}</td>
-            <td>{{ tableValue.get_taskStatus_display }}</td>
             <td>{{ tableValue.isJE }}</td>
-            <td>{{ tableValue.pub_date }}</td>
+            <td>{{ tableValue.aggregateStatus}}</td>
             <td style="display: none;">{{ tableValue.id }}</td>
         </tr>
         {% for subTableValue in subTasklist_Values %}
@@ -57,8 +55,8 @@
         <tr id="{{ idTemplate }}">
             <td></td>
             <td><button class="open-button" onclick="openForm()">(...)</button></td>
-            <td colspan="8">{{ subTableValue.subTaskDescription }}</td>
-            <td style="display: none;"></td>
+            <td colspan="7">{{ subTableValue.subTaskDescription }}</td>
+            <td>{{ subTableValue.get_subTaskStatus_display }}</td>
             <td style="display: none;"></td>
             <td style="display: none;"></td>
             <td style="display: none;"></td>
