@@ -1,5 +1,4 @@
 {% extends "CloseApplication/base.html" %}
-
 {% block title %}Task Checklist{% endblock %}
 {% block content %}
 {% include "CloseApplication/listview_outline.html" %}
@@ -26,7 +25,7 @@
         <tr data-toggle="collapse" data-target="{{ idTemplate_Hash }}">
             <td>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary">Action</button>
+                    <button type="button" class="btn btn-primary" id="collapseButton" onclick="collapse_Button_Click()">[+]</button>
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
@@ -52,7 +51,7 @@
         {% for subTableValue in subTasklist_Values %}
         {% if tableValue.taskId == subTableValue.taskId|stringformat:"s" %}
         {# "stringformat" filter property required as subTableValue.taskId type is foreign key vs. charfield on other table #}
-        <tr id="{{ idTemplate }}">
+        <tr id="{{ idTemplate }}" class="collapse in">
             <td></td>
             <td><button class="open-button" onclick="openForm()">(...)</button></td>
             <td colspan="7">{{ subTableValue.subTaskDescription }}</td>

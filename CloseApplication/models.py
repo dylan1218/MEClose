@@ -135,10 +135,7 @@ class TaskChecklist(models.Model):
             else:
                 return "Completed"
         except:
-            related_SubTask_Model = TaskChecklist.objects.prefetch_related("taskId_taskId").all().filter(taskId__startswith=self.taskId)
-            related_SubTask_Model_Groupby = related_SubTask_Model[0].taskId_taskId.all().values("subTaskStatus").annotate(Count("subTaskStatus")) #-1 to bring pk down relative to 0th based index
-
-            return related_SubTask_Model_Groupby
+            return "Unable to calculate status"
 
         
     @property #@property decorater utilized to create a callable calculated "field" similar to other fields
