@@ -105,13 +105,14 @@ class TaskChecklist(models.Model):
     @property
     def aggregateStatus(self):
         try:
-            related_SubTask_Model = TaskChecklist.objects.prefetch_related("taskId_taskId").all()
+            related_SubTask_Model = TaskChecklist.objects.prefetch_related("taskId_taskId").all().filter(taskId__startswith=self.taskId)
             related_SubTask_Model_Groupby = related_SubTask_Model[0].taskId_taskId.all().values("subTaskStatus").annotate(Count("subTaskStatus")) #-1 to bring pk down relative to 0th based index
             
             not_Started_List = list(related_SubTask_Model_Groupby.filter(subTaskStatus="NS").values_list("subTaskStatus__count", flat=True))
             in_Progress_List = list(related_SubTask_Model_Groupby.filter(subTaskStatus="IP").values_list("subTaskStatus__count", flat=True))
             completed_List = list(related_SubTask_Model_Groupby.filter(subTaskStatus="CT").values_list("subTaskStatus__count", flat=True))
 
+            #conditions to set status count for each status classification
             if len(not_Started_List) > 0:
                 not_Started_Count = not_Started_List[0]
             else:
@@ -131,12 +132,13 @@ class TaskChecklist(models.Model):
                 return "Not Started"
             elif in_Progress_Count > 0:
                 return "In Progress"
-            elif not_Started_Count > 0 and (in_Progress_Count + completed_Count) == 0:
-                return "Not Started"
             else:
                 return "Completed"
         except:
-            return "Not Started"
+            related_SubTask_Model = TaskChecklist.objects.prefetch_related("taskId_taskId").all().filter(taskId__startswith=self.taskId)
+            related_SubTask_Model_Groupby = related_SubTask_Model[0].taskId_taskId.all().values("subTaskStatus").annotate(Count("subTaskStatus")) #-1 to bring pk down relative to 0th based index
+
+            return related_SubTask_Model_Groupby
 
         
     @property #@property decorater utilized to create a callable calculated "field" similar to other fields
