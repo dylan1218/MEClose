@@ -14,6 +14,12 @@ urlpatterns = [
     path('tasks/create', views.TaskChecklistCreate.as_view(), name='contact_create'),
     path('tasks/update/<int:pk>', views.TaskChecklistUpdate.as_view(), name='task_update'),
     path('tasks/delete/<int:pk>', views.TaskChecklistDelete.as_view(), name='task_delete'),
+    #subtasks paths
+    path('subtasks/', views.SubTaskChecklist_List.as_view(), name='subtasklist'),
+    path('subtasks/<int:pk>', views.SubTaskChecklistDetail.as_view(), name='subtaskdetail'),
+    path('subtasks/create', views.SubTaskChecklistCreate.as_view(), name='subcontact_create'),
+    path('subtasks/update/<int:pk>', views.SubTaskChecklistUpdate.as_view(), name='subtask_update'),
+    path('subtasks/delete/<int:pk>', views.SubTaskChecklistDelete.as_view(), name='subtask_delete'),
     #accountrecs paths
     path('accountrecs/', views.AccountRecList_List.as_view(), name='accountRecList'),
     path('accountrecs/<int:pk>', views.AccountRecListDetail.as_view(), name='accountrecs_detail'),

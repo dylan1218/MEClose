@@ -144,7 +144,7 @@ class TaskChecklist(models.Model):
 
     def __str__(self):
         return self.taskId
-
+#Note: need to revaluate foreign key within subtaskchecklist -- might need to append taskId+Entity+Year+Period for a unique key
 class subTaskChecklist(models.Model):
     taskId = models.ForeignKey(TaskChecklist, related_name="taskId_taskId", on_delete=models.CASCADE) #this field is our associated between the parent task and subtask(s). Cascade is utilize to remove the subtasks if parent task is removed
     subTaskNumber = models.IntegerField(max_length=2, default=1) #Maximum number of subtasks set to 99

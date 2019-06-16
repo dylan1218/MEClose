@@ -27,6 +27,29 @@ def redirect_view(request): #redirects to CloseSummary if at index URL
 def summaryView(request):
     return render(request, 'CloseApplication/CloseSummary.html')
 
+#Start of subTaskChecklist views:
+class SubTaskChecklist_List(ListView): 
+    template_name = 'CloseApplication/subtaskchecklist/subtaskchecklist_list.html'
+    model = subTaskChecklist
+
+class SubTaskChecklistDetail(DetailView): 
+    template_name = 'CloseApplication/subtaskchecklist/subtaskchecklist_detail.html'
+    model = subTaskChecklist
+
+class SubTaskChecklistCreate(CreateView): 
+    template_name = 'CloseApplication/subtaskchecklist/subtaskchecklist_form.html'
+    model = subTaskChecklist
+    fields = '__all__'
+
+class SubTaskChecklistUpdate(UpdateView): 
+    template_name = 'CloseApplication/subtaskchecklist/subtaskchecklist_form.html'
+    model = subTaskChecklist
+    fields = '__all__'
+
+class SubTaskChecklistDelete(DeleteView): 
+    template_name = 'CloseApplication/subtaskchecklist/subtaskchecklist_delete.html'
+    model = subTaskChecklist
+
 #Start of userDefinedTeam views:
 class TeamList_List(ListView): 
     template_name = 'CloseApplication/teamlist/teamlist_list.html'
@@ -158,6 +181,7 @@ class TaskChecklistUpdate(UpdateView):
     template_name = 'CloseApplication/taskchecklist/taskchecklist_form.html'
     model = TaskChecklist
     fields = '__all__'
+
 
 class TaskChecklistDelete(DeleteView):
     template_name = 'CloseApplication/taskchecklist/taskchecklist_delete.html'
