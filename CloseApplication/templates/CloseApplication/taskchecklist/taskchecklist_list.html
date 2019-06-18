@@ -49,14 +49,14 @@
             <td style="display: none;">{{ tableValue.id }}</td>
         </tr>
         {% for subTableValue in subTasklist_Values %}
-        {% if tableValue.taskId == subTableValue.taskId|stringformat:"s" %}
+        {% if tableValue.taskIdKey == subTableValue.Get_Related_Period|stringformat:"s" %}
         {# "stringformat" filter property required as subTableValue.taskId type is foreign key vs. charfield on other table #}
         <tr id="{{ idTemplate }}" class="collapse in">
             <td></td>
             <td><button class="open-button" onclick="openForm()">(...)</button></td>
-            <td colspan="7">{{ subTableValue.subTaskDescription }}</td>
+            <td colspan="6">{{ subTableValue.subTaskDescription }}</td>
             <td>{{ subTableValue.get_subTaskStatus_display }}</td>
-            <td style="display: none;"></td>
+            <td>{{ subTableValue.Get_Related_Period }}</td>
             <td style="display: none;"></td>
             <td style="display: none;"></td>
             <td style="display: none;"></td>

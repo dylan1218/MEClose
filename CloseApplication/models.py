@@ -99,13 +99,13 @@ class TaskChecklist(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['taskId', 'entity'], name='unique_EntityUser')
+            models.UniqueConstraint(fields=['taskId', 'entity', 'taskPeriod', 'taskYear'], name='unique_EntityUser')
         ]
 
     @property
     def aggregateStatus(self):
         try:
-            related_SubTask_Model = TaskChecklist.objects.prefetch_related("taskId_taskId").all().filter(taskId__startswith=self.taskId)
+            related_SubTask_Model = TaskChecklist.objects.prefetch_related("taskId_taskId").all().filter(taskId=self.taskId, entity=self.entity, taskPeriod=self.taskPeriod, taskYear=self.taskYear)
             related_SubTask_Model_Groupby = related_SubTask_Model[0].taskId_taskId.all().values("subTaskStatus").annotate(Count("subTaskStatus")) #-1 to bring pk down relative to 0th based index
             
             not_Started_List = list(related_SubTask_Model_Groupby.filter(subTaskStatus="NS").values_list("subTaskStatus__count", flat=True))
@@ -140,10 +140,10 @@ class TaskChecklist(models.Model):
         
     @property #@property decorater utilized to create a callable calculated "field" similar to other fields
     def taskIdKey(self):
-        return self.taskId + self.taskPeriod + self.taskYear
+        return str(self.entity) + "-" + str(self.taskId) + "-" + str(self.taskYear) + "-" + str(self.taskPeriod)
 
     def __str__(self):
-        return self.taskId
+        return str(self.entity) + "-" + str(self.taskId) + "-" + str(self.taskYear) + "-" + str(self.taskPeriod)
 #Note: need to revaluate foreign key within subtaskchecklist -- might need to append taskId+Entity+Year+Period for a unique key
 class subTaskChecklist(models.Model):
     taskId = models.ForeignKey(TaskChecklist, related_name="taskId_taskId", on_delete=models.CASCADE) #this field is our associated between the parent task and subtask(s). Cascade is utilize to remove the subtasks if parent task is removed
@@ -151,6 +151,12 @@ class subTaskChecklist(models.Model):
     subTaskDescription = models.CharField(max_length=200)
     subTaskStatus = models.CharField(max_length=2, choices = statusChoices)
     #Note I did not add additional fields as the related parent should contain this data 
+    @property
+    def Get_Related_Period(self):
+        get_Related_Object = subTaskChecklist.objects.all()
+        return str(get_Related_Object.get(id=self.id).taskId.entity) + "-" + str(get_Related_Object.get(id=self.id).taskId.taskId) + "-" + str(get_Related_Object.get(id=self.id).taskId.taskYear) + "-" + str(get_Related_Object.get(id=self.id).taskId.taskPeriod)
+        #note within template lookup only include as visual subtask if taskPeriod and year also matches
+    
     def __str__(self):
         return self.subTaskDescription
 
