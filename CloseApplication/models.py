@@ -101,6 +101,15 @@ class TaskChecklist(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['taskId', 'entity', 'taskPeriod', 'taskYear'], name='unique_EntityUser')
         ]
+    @property
+    def Not_Equal_CT(self):
+        try:
+            related_SubTask_Model = TaskChecklist.objects.prefetch_related("taskId_taskId").all().filter(taskId=self.taskId, entity=self.entity, taskPeriod=self.taskPeriod, taskYear=self.taskYear)
+            related_SubTask_Model_Groupby = related_SubTask_Model[0].taskId_taskId.all().values("subTaskStatus").annotate(Count("subTaskStatus"))
+            not_Completed_List = list(related_SubTask_Model_Groupby.exclude(subTaskStatus="CT").values_list("subTaskStatus__count", flat=True))
+            return sum(not_Completed_List)
+        except:
+            return "error" #to work on except logic
 
     @property
     def aggregateStatus(self):
@@ -144,13 +153,34 @@ class TaskChecklist(models.Model):
 
     def __str__(self):
         return str(self.entity) + "-" + str(self.taskId) + "-" + str(self.taskYear) + "-" + str(self.taskPeriod)
-#Note: need to revaluate foreign key within subtaskchecklist -- might need to append taskId+Entity+Year+Period for a unique key
+#Note: need to revaluate foreign key within subtaskchecklist -- might need to append taskId     +Entity+Year+Period for a unique key
 class subTaskChecklist(models.Model):
     taskId = models.ForeignKey(TaskChecklist, related_name="taskId_taskId", on_delete=models.CASCADE) #this field is our associated between the parent task and subtask(s). Cascade is utilize to remove the subtasks if parent task is removed
     subTaskNumber = models.IntegerField(max_length=2, default=1) #Maximum number of subtasks set to 99
     subTaskDescription = models.CharField(max_length=200)
     subTaskStatus = models.CharField(max_length=2, choices = statusChoices)
-    #Note I did not add additional fields as the related parent should contain this data 
+    #Note I did not add additional fields as                                     the related parent should contain this data 
+    #unique contrain entity, taskId, subTaskNumber, year, period
+    #class Meta:
+    #    constraints = [
+    #        models.UniqueConstraint(fields=['taskId', 'subTaskNumber'], name='unique_Subtask')
+    #    ]
+
+    @property
+    def Not_Equal_CT(self): #method to determine if any non-completed subtasks remain
+        try:
+            related_SubTask_Model = subTaskChecklist.objects.all().filter(taskId=self.taskId).values('subTaskStatus').exclude(subTaskStatus__startswith="CT").count()
+            #related_Period = subTaskChecklist.objects.all().get(id=self.id).taskId.taskPeriod
+            #related_Year = subTaskChecklist.objects.all().get(id=self.id).taskId.taskYear
+            #related_Entity = subTaskChecklist.objects.all().get(id=self.id).taskId.entity
+            return related_SubTask_Model
+        except:
+            related_SubTask_Model = subTaskChecklist.objects.all().filter(taskId=self.taskId).values('subTaskStatus').exists()
+            if related_SubTask_Model == True:
+                return 0
+            else:
+                return related_SubTask_Model
+    
     @property
     def Get_Related_Period(self):
         get_Related_Object = subTaskChecklist.objects.all()
