@@ -167,20 +167,52 @@ class subTaskChecklist(models.Model):
     #    ]
 
     @property
+    def Sub_Task_Year(self):
+        related_Year = subTaskChecklist.objects.all().get(id=self.id).taskId.taskYear
+        return related_Year
+    @property
+    def Sub_Task_Period(self):
+        related_Period = subTaskChecklist.objects.all().get(id=self.id).taskId.taskPeriod
+        return related_Period
+    @property
+    def Sub_Task_Entity(self):
+        related_Entity = subTaskChecklist.objects.all().get(id=self.id).taskId.entity
+        return related_Entity
+    @property
+    def Sub_Task_TBMapping(self):
+        related_Mapping = subTaskChecklist.objects.all().get(id=self.id).taskId.taskTBMapping
+        return related_Mapping
+    @property
+    def Sub_Task_Description(self):
+        related_Description = subTaskChecklist.objects.all().get(id=self.id).taskId.taskDescription
+        return related_Description
+    @property
+    def Sub_Task_Occurence(self):
+        related_Occurence = subTaskChecklist.objects.all().get(id=self.id).taskId.taskOccurence
+        return related_Occurence
+    @property
+    def Sub_Task_OwnerId(self):
+        related_Owner = subTaskChecklist.objects.all().get(id=self.id).taskId.taskOwnerId
+        return related_Owner
+    @property
+    def Sub_Task_IsJE(self):
+        related_IsJE = subTaskChecklist.objects.all().get(id=self.id).taskId.isJE
+        return related_IsJE
+    @property
+    def Related_Task_PK(self):
+        related_Pk = subTaskChecklist.objects.all().get(id=self.id).taskId.pk
+        return related_Pk 
+    @property
     def Not_Equal_CT(self): #method to determine if any non-completed subtasks remain
         try:
             related_SubTask_Model = subTaskChecklist.objects.all().filter(taskId=self.taskId).values('subTaskStatus').exclude(subTaskStatus__startswith="CT").count()
-            #related_Period = subTaskChecklist.objects.all().get(id=self.id).taskId.taskPeriod
-            #related_Year = subTaskChecklist.objects.all().get(id=self.id).taskId.taskYear
-            #related_Entity = subTaskChecklist.objects.all().get(id=self.id).taskId.entity
             return related_SubTask_Model
         except:
             related_SubTask_Model = subTaskChecklist.objects.all().filter(taskId=self.taskId).values('subTaskStatus').exists()
             if related_SubTask_Model == True:
                 return 0
             else:
-                return related_SubTask_Model
-    
+                return related_SubTask_Model 
     @property
     def Get_Related_Period(self):
         get_Related_Object = subTaskChecklist.objects.all()
