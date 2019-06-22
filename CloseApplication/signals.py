@@ -7,16 +7,67 @@ from datetime import datetime
 
 #signal logic -- if subtask status change, check if all subtasks completed, if so generate
 #parent task and associated subtasks (not need to confirm not exists before creation)
-def Roll_Month(month): #note, this doesn't consider reocurrence -- assumes monthly for testing purposes, will need to fix
+def Roll_Year(month, occurence):
+    if occurence == "M":
+        try:
+            if (month + 1) > 12:
+                return 1
+            else:
+                return 0
+        except:
+            return "Month Error"
+    if occurence == "Q":
+        try:
+            if (month + 3) > 12:
+                return 1
+            else:
+                return 0
+        except:
+            return "Quarterly Error"
+    if occurence == "S":
+        try:
+            if(month + 6) > 12:
+                return 1
+            else:
+                return 0
+        except: 
+            return "Semi-Annual Error"
+    if occurence == "A":
+        return 1
+
+def Roll_Month(month, occurence):
     try:
-        if month < 11 and month > 0:
-            return month + 1
-        elif month == 12:
-            return 1
-        elif month == 0:
-            return "Month can't be 0"
+        if occurence == "M":
+            try:
+                if (month + 1) > 12:
+                    return (month + 1) - 12
+                else:
+                    return month + 1
+            except:
+                return "Month Error"
+        if occurence == "Q":
+            try:
+                if (month + 3) > 12:
+                    return (month + 3) - 12
+                else:
+                    return month + 3
+            except:
+                return "Quarterly Error"
+        if occurence == "S":
+            try:
+                if(month + 6) > 12:
+                    return (month + 6) - 12
+                else:
+                    return month + 6
+            except: 
+                return "Semi-Annual Error"
+        if occurence == "A":
+            return month
     except:
-        return "error"
+        return "No occurence found"
+    
+    
+
 
 @receiver(request_finished)
 def my_callback(sender, **kwargs):
@@ -37,17 +88,17 @@ def do_something_if_changed(sender, instance, **kwargs):
             if str(new_Value) == "CT" and instance.Not_Equal_CT == 1: #if equal to 1 on pre_save indicates 0 after save, thus all subtasks for associated parent task are completed and a rollover is required. 
                 print(instance.Not_Equal_CT) 
                 relatedTaskChecklistId = TaskChecklist.objects.all().get(pk=instance.Related_Task_PK).taskId #Related_Task_PK return the subtasks related parent task primary key 
-                next_Task = TaskChecklist.objects.all().filter(taskId=relatedTaskChecklistId, entity=instance.Sub_Task_Entity, taskYear=instance.Sub_Task_Year, taskPeriod=Roll_Month(instance.Sub_Task_Period))
+                next_Task = TaskChecklist.objects.all().filter(taskId=relatedTaskChecklistId, entity=instance.Sub_Task_Entity, taskYear=instance.Sub_Task_Year + Roll_Year(instance.Sub_Task_Period, instance.Sub_Task_Occurence), taskPeriod=Roll_Month(instance.Sub_Task_Period, instance.Sub_Task_Occurence))
                 if next_Task.exists():
                     return "Exists -- don't create a new task"
                 else:
                     #Note: Consider creating the rollover task owner as  determined by who actually completed the task vs. the owner the task
-                    create_Task = TaskChecklist(taskId=relatedTaskChecklistId,taskTBMapping=instance.Sub_Task_TBMapping,taskDescription=instance.Sub_Task_Description,taskYear=instance.Sub_Task_Year,taskPeriod=Roll_Month(instance.Sub_Task_Period),taskOccurence=instance.Sub_Task_Occurence,taskOwnerId=instance.Sub_Task_OwnerId,isJE=instance.Sub_Task_IsJE,pub_date=datetime.now(),due_date=datetime.now(),entity=instance.Sub_Task_Entity)
+                    create_Task = TaskChecklist(taskId=relatedTaskChecklistId,taskTBMapping=instance.Sub_Task_TBMapping,taskDescription=instance.Sub_Task_Description,taskYear=instance.Sub_Task_Year + Roll_Year(instance.Sub_Task_Period, instance.Sub_Task_Occurence),dueMonthDay=instance.Sub_dueMonthDay,taskPeriod=Roll_Month(instance.Sub_Task_Period, instance.Sub_Task_Occurence),taskOccurence=instance.Sub_Task_Occurence,taskOwnerId=instance.Sub_Task_OwnerId,isJE=instance.Sub_Task_IsJE,pub_date=datetime.now(),due_date=datetime.now(),entity=instance.Sub_Task_Entity)
                     create_Task.save()
                     associated_Subtasks = sender.objects.all().filter(taskId=instance.taskId).all()
                     for subTask in associated_Subtasks:
                         print(next_Task)
-                        next_TaskGet = TaskChecklist.objects.all().get(taskId=relatedTaskChecklistId, entity=instance.Sub_Task_Entity, taskYear=instance.Sub_Task_Year, taskPeriod=Roll_Month(instance.Sub_Task_Period))
+                        next_TaskGet = TaskChecklist.objects.all().get(taskId=relatedTaskChecklistId, entity=instance.Sub_Task_Entity, taskYear=instance.Sub_Task_Year + Roll_Year(instance.Sub_Task_Period, instance.Sub_Task_Occurence), taskPeriod=Roll_Month(instance.Sub_Task_Period, instance.Sub_Task_Occurence))
                         create_SubTask = subTaskChecklist(taskId=next_TaskGet, subTaskNumber=subTask.subTaskNumber, subTaskDescription=subTask.subTaskDescription, subTaskStatus="NS")
                         create_SubTask.save()
 

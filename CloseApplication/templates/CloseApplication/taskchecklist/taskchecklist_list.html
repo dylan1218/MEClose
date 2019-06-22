@@ -48,16 +48,16 @@
             <td>{{ tableValue.aggregateStatus }}</td>
             <td style="display: none;">{{ tableValue.id }}</td>
         </tr>
-        {% for subTableValue in subTasklist_Values %}
+        {% for subTableValue in subTasklist_Values %} {# This for loop is killing performance -- to see if we can move the display subtasks for parent tasks to front-end. (i.e. on click open, create sub rows, on click close, clear the sub rows) #}
         {% if tableValue.taskIdKey == subTableValue.Get_Related_Period|stringformat:"s" %}
         {# "stringformat" filter property required as subTableValue.taskId type is foreign key vs. charfield on other table #}
         <tr id="{{ idTemplate }}" class="collapse in">
             <td></td>
             <td><button class="open-button" onclick="openForm()">(...)</button></td>
-            <td colspan="5">{{ subTableValue.subTaskDescription }}</td>
+            <td colspan="7">{{ subTableValue.subTaskDescription }}</td>
             <td>{{ subTableValue.get_subTaskStatus_display }}</td>
-            <td>{{ subTableValue.Get_Related_Period }}</td>
-            <td>{{ subTableValue.Not_Equal_CT }}</td>
+            <td style="display: none;"></td>
+            <td style="display: none;"></td>
             <td style="display: none;"></td>
             <td style="display: none;"></td>
             <td style="display: none;"></td>

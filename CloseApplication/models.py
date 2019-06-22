@@ -77,10 +77,9 @@ class userReviewerMapping(models.Model):
 class TaskChecklist(models.Model):
     
     occurenceChoices = (
-        ('D', 'Daily'),
-        ('W', 'Weekly'),
         ('M', 'Monthly'),
         ('Q', 'Quarterly'),
+        ('S', 'Semi-Annually'),
         ('A', 'Annually'), 
     )
     
@@ -93,7 +92,8 @@ class TaskChecklist(models.Model):
     taskOwnerId = models.ForeignKey(User, on_delete=models.PROTECT) #For documentation purposes we want to preserve who the owner of a task was, and as such protect is utilized to not allow deletion of the referenced object
     isJE = models.CharField(max_length=3, choices=binaryChoice)
     pub_date = models.DateTimeField('date published')
-    due_date = models.DateField(("Due Date"), default=datetime.date.today)
+    due_date = models.DateField(("Due Date"), default=datetime.date.today) #Note: No longer needed -- will be a calculated property
+    dueMonthDay = models.IntegerField(max_length=2, default=1)
     entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, related_name="entity_TaskChecklist", default=1)
 
 
@@ -166,6 +166,10 @@ class subTaskChecklist(models.Model):
     #        models.UniqueConstraint(fields=['taskId', 'subTaskNumber'], name='unique_Subtask')
     #    ]
 
+    @property
+    def Sub_dueMonthDay(self):
+        related_dueMonthDay = subTaskChecklist.objects.all().get(id=self.id).taskId.dueMonthDay
+        return related_dueMonthDay
     @property
     def Sub_Task_Year(self):
         related_Year = subTaskChecklist.objects.all().get(id=self.id).taskId.taskYear
