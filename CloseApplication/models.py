@@ -237,7 +237,7 @@ class subTaskChecklist(models.Model):
     
     def File_Path(instance, filename):
         return os.path.join("Sub_Tasks", str(instance.taskId), str(instance.subTaskNumber), filename)
-    docfile = models..FileField(upload_to=File_Path, default=False) #Note: To consider a way to set the default value equal to a dynamic file template which a user can download, and upload once completed
+    docfile = models.FileField(upload_to=File_Path, default=False) #Note: To consider a way to set the default value equal to a dynamic file template which a user can download, and upload once completed
 
     def __str__(self):
         return self.subTaskDescription
