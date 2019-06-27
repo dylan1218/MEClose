@@ -1,4 +1,7 @@
 import datetime
+import pandas as pd
+from pandas.tseries.offsets import BDay
+import calendar
 import os
 from django.db import models
 from django.db.models import Count
@@ -102,6 +105,14 @@ class TaskChecklist(models.Model):
             models.UniqueConstraint(fields=['taskId', 'entity', 'taskPeriod', 'taskYear'], name='unique_EntityUser')
         ]
     @property
+    def Due_Date(self):
+        dateStart = datetime.date(self.taskYear,self.taskPeriod,1)
+        dateEnd = datetime.date(self.taskYear, self.taskPeriod, calendar.monthrange(self.taskYear,self.taskPeriod)[1])
+        firstBusinessDay = pd.date_range(dateStart, dateEnd, freq="BMS")
+        return (firstBusinessDay + BDay(self.dueMonthDay-1)).date[0]
+
+
+    @property
     def Not_Equal_CT(self):
         try:
             related_SubTask_Model = TaskChecklist.objects.prefetch_related("taskId_taskId").all().filter(taskId=self.taskId, entity=self.entity, taskPeriod=self.taskPeriod, taskYear=self.taskYear)
@@ -159,12 +170,13 @@ class subTaskChecklist(models.Model):
     subTaskNumber = models.IntegerField(max_length=2, default=1) #Maximum number of subtasks set to 99
     subTaskDescription = models.CharField(max_length=200)
     subTaskStatus = models.CharField(max_length=2, choices = statusChoices)
-    #Note I did not add additional fields as                                     the related parent should contain this data 
+    #Note I did not add additional fields as the related parent should contain this data 
     #unique contrain entity, taskId, subTaskNumber, year, period
-    #class Meta:
-    #    constraints = [
-    #        models.UniqueConstraint(fields=['taskId', 'subTaskNumber'], name='unique_Subtask')
-    #    ]
+    #Note that taskId __str__ method returns the entity, taskId, taskYear and taskPeriod
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['taskId', 'subTaskNumber'], name='unique_Subtask')
+        ]
 
     @property
     def Sub_dueMonthDay(self):
@@ -223,6 +235,10 @@ class subTaskChecklist(models.Model):
         return str(get_Related_Object.get(id=self.id).taskId.entity) + "-" + str(get_Related_Object.get(id=self.id).taskId.taskId) + "-" + str(get_Related_Object.get(id=self.id).taskId.taskYear) + "-" + str(get_Related_Object.get(id=self.id).taskId.taskPeriod)
         #note within template lookup only include as visual subtask if taskPeriod and year also matches
     
+    def File_Path(instance, filename):
+        return os.path.join("Sub_Tasks", str(instance.taskId), str(instance.subTaskNumber), filename)
+    docfile = models..FileField(upload_to=File_Path, default=False) #Note: To consider a way to set the default value equal to a dynamic file template which a user can download, and upload once completed
+
     def __str__(self):
         return self.subTaskDescription
 
@@ -239,7 +255,7 @@ class AccountReconciliationList(models.Model):
     entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, related_name="entity_AccountReconciliationList", default=1)
     
     def File_Path(instance, filename):
-        return os.path.join(str(instance.entity), str(instance.reconciliationYear), str(instance.reconciliationPeriod), str(instance.accountNumber), filename)
+        return os.path.join("Journal Entries", str(instance.entity), str(instance.reconciliationYear), str(instance.reconciliationPeriod), str(instance.accountNumber), filename)
     docfile = models.FileField(upload_to=File_Path, default=False) #Note: To consider a way to set the default value equal to a dynamic file template which a user can download, and upload once completed
     def __str__(self):
         return self.accountDescription

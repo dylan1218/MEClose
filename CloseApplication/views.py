@@ -2,9 +2,13 @@ from django.shortcuts import render
 from django.http import Http404
 from django.http import HttpResponse
 from django.template import loader
+from django.views import View
 from django.views.generic import ListView, DetailView 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .forms import DocumentForm
 from .models import AccountReconciliationList
 from .models import TaskChecklist
 from .models import journalEntryApprovalList
@@ -121,9 +125,31 @@ class EntityDelete(DeleteView):
     model = userDefinedEntity
 
 #Start of EntryApproval_List views:
-class EntryApproval_List(ListView): 
-    template_name = 'CloseApplication/entryapprovallist/entryapprovallist_list.html'
+class EntryApproval_List(View):
+    template = 'CloseApplication/entryapprovallist/entryapprovallist_list.html'
     model = journalEntryApprovalList
+    form_class = DocumentForm
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        journalEntryApprovalList_Values = journalEntryApprovalList.objects.all()
+        context = { #context represents the variables passed to the provided template
+            'journalEntryApprovalList_Values': journalEntryApprovalList_Values,
+            'form': form,
+        }
+        #return HttpResponse(template.render(context, request)) is the same as return render(request, 'polls/index.html', context)
+        return render(request, self.template, context)
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            data_Record = journalEntryApprovalList.objects.get(pk=int(request.POST['list_pk'])) #This is not a great approach but does the job for now -- theoertically user could change the front-end id before submitting.
+            data_Record.docfile = request.FILES['docfile']
+            data_Record.save()
+            return HttpResponseRedirect(reverse('entryapprovallist'))
+        else:
+            form=DocumentForm()
+            return render(request, self.template, {'form': form})
+
+
 
 class EntryApprovalDetail(DetailView): 
     template_name = 'CloseApplication/entryapprovallist/entryapprovallist_detail.html'
@@ -144,9 +170,31 @@ class EntryApprovalDelete(DeleteView):
     model = journalEntryApprovalList
 
 #Start of AccountRecList views:
-class AccountRecList_List(ListView): 
-    template_name = 'CloseApplication/accountreclist/accountreclist_list.html'
+
+class AccountRecList_List(View):
+    template = 'CloseApplication/accountreclist/accountreclist_list.html'
     model = AccountReconciliationList
+    form_class = DocumentForm
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        AccountReconciliationList_Values = AccountReconciliationList.objects.all()
+        context = { #context represents the variables passed to the provided template
+            'AccountReconciliationList_Values': AccountReconciliationList_Values,
+            'form': form,
+        }
+        #return HttpResponse(template.render(context, request)) is the same as return render(request, 'polls/index.html', context)
+        return render(request, self.template, context)
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            data_Record = AccountReconciliationList.objects.get(pk=int(request.POST['list_pk'])) #This is not a great approach but does the job for now -- theoertically user could change the front-end id before submitting.
+            data_Record.docfile = request.FILES['docfile']
+            data_Record.save()
+            return HttpResponseRedirect(reverse('accountRecList'))
+        else:
+            form=DocumentForm()
+            return render(request, self.template, {'form': form})
+
 
 class AccountRecListDetail(DetailView): 
     template_name = 'CloseApplication/accountreclist/accountreclist_detail.html'
@@ -159,7 +207,7 @@ class AccountRecListCreate(CreateView): #Not in use for now
 
 class AccountRecListUpdate(UpdateView):
     template_name = 'CloseApplication/accountreclist/accountreclist_form.html'
-    model = TaskChecklist
+    model = AccountReconciliationList
     fields = '__all__'
 
 class AccountRecListDelete(DeleteView): #Not in use for now
@@ -187,45 +235,19 @@ class TaskChecklistDelete(DeleteView):
     template_name = 'CloseApplication/taskchecklist/taskchecklist_delete.html'
     model = TaskChecklist
 
-def taskList(request):
-    TaskChecklist_Fields = TaskChecklist._meta.get_fields(include_hidden=False)
-    TaskChecklist_Values = TaskChecklist.objects.all()
-    subTasklist_Fields = subTaskChecklist._meta.get_fields(include_hidden=False)
-    subTasklist_Values = subTaskChecklist.objects.all()
-    context = { #context represents the variables passed to the provided template
-        'TaskChecklist_Fields': TaskChecklist_Fields,
-        'TaskChecklist_Values': TaskChecklist_Values,
-        'subTasklist_Fields': subTasklist_Fields,
-        'subTasklist_Values': subTasklist_Values,
-    }
-    #return HttpResponse(template.render(context, request)) is the same as return render(request, 'polls/index.html', context)
-    return render(request, 'CloseApplication/taskchecklist/taskchecklist_list.html', context)
-    #Render takes argument render(request, Name of html template path, context varialbes)
-
-# def index(request):
-#     latest_question_list = TaskChecklist.objects.order_by('-pub_date')[:5] #returns array of ordered questions
-#     TaskChecklist_Fields = TaskChecklist._meta.get_fields(include_hidden=False)
-#     TaskChecklist_Values = TaskChecklist.objects.all()
-#     #template = loader.get_template('polls/index.html')
-#     context = { #context represents the variables passed to the provided template
-#         'latest_question_list': latest_question_list,
-#         'TaskChecklist_Fields': TaskChecklist_Fields,
-#         'TaskChecklist_Values': TaskChecklist_Values,
-#     }
-#     #return HttpResponse(template.render(context, request)) is the same as return render(request, 'polls/index.html', context)
-#     return render(request, 'CloseApplication/index.html', context)
-
-#def accountRecList(request):
-#    accountRecList_Fields = AccountReconciliationList._meta.get_fields(include_hidden=False)
-#    accountRecList_Values = AccountReconciliationList.objects.all()
-#    #template = loader.get_template('polls/index.html')
-#    context = { #context represents the variables passed to the provided template
-#        'accountRecList_Fields': accountRecList_Fields,
-#        'accountRecList_Values': accountRecList_Values,
-#    }
-#    #return HttpResponse(template.render(context, request)) is the same as return render(request, 'polls/index.html', context)
-#    return render(request, 'CloseApplication/accountRecList.html', context)
-#    #Render takes argument render(request, Name of html template path, context varialbes)
-
-
-
+class taskList(View):
+    template = 'CloseApplication/taskchecklist/taskchecklist_list.html'
+    def get(self, request, *args, **kwargs):
+        TaskChecklist_Fields = TaskChecklist._meta.get_fields(include_hidden=False)
+        TaskChecklist_Values = TaskChecklist.objects.all()
+        subTasklist_Fields = subTaskChecklist._meta.get_fields(include_hidden=False)
+        subTasklist_Values = subTaskChecklist.objects.all()
+        context = { #context represents the variables passed to the provided template
+            'TaskChecklist_Fields': TaskChecklist_Fields,
+            'TaskChecklist_Values': TaskChecklist_Values,
+            'subTasklist_Fields': subTasklist_Fields,
+            'subTasklist_Values': subTasklist_Values,
+        }
+        #return HttpResponse(template.render(context, request)) is the same as return render(request, 'polls/index.html', context)
+        return render(request, self.template, context)
+        #Render takes argument render(request, Name of html template path, context varialbes)

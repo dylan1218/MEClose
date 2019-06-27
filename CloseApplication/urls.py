@@ -9,7 +9,7 @@ urlpatterns = [
     path('', views.redirect_view, name='redirect'),
     path('CloseSummary/', views.summaryView, name='summaryView'),
     #tasks paths
-    path('tasks/', views.taskList, name='tasklist'),
+    path('tasks/', views.taskList.as_view(), name='tasklist'),
     path('tasks/<int:pk>', views.TaskChecklistDetail.as_view(), name='taskdetail'),
     path('tasks/create', views.TaskChecklistCreate.as_view(), name='contact_create'),
     path('tasks/update/<int:pk>', views.TaskChecklistUpdate.as_view(), name='task_update'),

@@ -10,17 +10,18 @@
             <th>Entity</th>
             <th>Account Number</th>
             <th>Account Description</th>
-            <th>Balance for Period (Month Ended/As of)</th>
-            <th>Balance for Prior Month (Month Ended/As of)</th>
+            <th>Balance for Period</th>
+            <th>Balance for Prior Month</th>
             <th>Year</th>
             <th>Month</th>
             <th>Reconciled Status</th>
             <th>Required</th>
             <th>Owner</th>
             <th>Reviewer</th>
+            <th>Attachment</td>
         </tr>
     </thead>
-    {% for tableValue in object_list %}
+    {% for tableValue in AccountReconciliationList_Values %}
     <tr>
         <td>
             <div class="btn-group">
@@ -49,6 +50,20 @@
         <td>{{ tableValue.reconciliationStatus }}</td> {# To find a way to let user defined what is required or not #}
         <td>{{ tableValue.reconciliationOwnerId }}</td>
         <td>{{ tableValue.reconciliationOwnerId }}</td> {# To find a way to map owner to reviewer #}
+        <td>
+            <form action="#" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p>
+                    {{ form.docfile.errors }}
+                    {{ form.docfile }}
+                    <input type="submit" value="Upload"/>
+                </p>
+                
+                <p>
+                <input type="hidden" name="list_pk" value="{{ tableValue.id }}"/>
+                </p>
+            </form>
+        </td>
     </tr>
     {% endfor %}            
 </table>

@@ -10,12 +10,11 @@ $(document).ready( function () {
 */
 
 
-function collapse_Button_Click(){
+function collapse_Button_Click() {
     console.log(document.getElementById("collapseButton").innerHTML);
-    if(document.getElementById("collapseButton").innerHTML == "[+]"){
+    if (document.getElementById("collapseButton").innerHTML == "[+]") {
         document.getElementById("collapseButton").innerHTML = "[-]";
-    }
-    else{
+    } else {
         document.getElementById("collapseButton").innerHTML = "[+]"
     };
 };

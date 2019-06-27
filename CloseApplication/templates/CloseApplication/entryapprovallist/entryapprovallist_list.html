@@ -18,9 +18,10 @@
             <th>Reviewer Username</th>
             <th>Approval Status</th>
             <th>Approval Comments</th>
+            <th>File Attachment</th>
         </tr>
     </thead>
-    {% for tableValue in object_list %}
+    {% for tableValue in journalEntryApprovalList_Values %}
     <tr>
         <td>
             <div class="btn-group">
@@ -47,6 +48,19 @@
         <td>{{ tableValue.postingReviewer }}</td>
         <td>{{ tableValue.approvalStatus }}</td>
         <td>{{ tableValue.approvalStatus_Description }}</td>
+        <td>
+            <form action="#" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p>
+                    {{ form.docfile.errors }}
+                    {{ form.docfile }}
+                    <input type="submit" value="Upload"/>
+                </p> 
+                <p>
+                <input type="hidden" name="list_pk" value="{{ tableValue.id }}"/>
+                </p>
+            </form>
+        </td>
     </tr>
     {% endfor %}
 </table>

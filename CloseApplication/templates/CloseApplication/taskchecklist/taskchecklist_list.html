@@ -2,6 +2,7 @@
 {% block title %}Task Checklist{% endblock %}
 {% block content %}
 {% include "CloseApplication/listview_outline.html" %}
+<div class="modal" id="modal"></div>
 <table class="table table-bordered table-hover" id="TaskChecklistTable">
     <thead>
         <tr>
@@ -14,9 +15,26 @@
             <th>Occurence</th>
             <th>Owner ID</th>
             <th>Journal Entry</th>
+            <td>Due Date</th>
             <th>Status</th>
         </tr>
     </thead>
+        <script>
+            function modal_display(clicked_id)
+            {
+            {
+                var modal = $('#modal')
+                $.ajax(
+                {
+                    url: "/ClosePortal/tasks/update/"+clicked_id,
+                    context: document.body
+                }).done(function(response) 
+                {
+                    modal.html(response);
+                });
+            };
+            };
+        </script>
     <tbody class="bg-white">
         {% for tableValue in TaskChecklist_Values %}
         {% with forloopCounter=forloop.counter|stringformat:"s" %}
@@ -32,7 +50,7 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/ClosePortal/tasks/{{ tableValue.id }}">Detail</a>
-                        <a class="dropdown-item" href="/ClosePortal/tasks/update/{{ tableValue.id }}">Edit</a>
+                        <a class="dropdown-item" id="{{ tableValue.id }}" onclick='return modal_display(this.id)' data-toggle="modal" data-target="#modal" href="/ClosePortal/tasks/update/{{ tableValue.id }}">Edit</a>
                         <a class="dropdown-item" href="/ClosePortal/tasks/delete/{{ tableValue.id }}">Delete</a>
                     </div>
                 </div>
@@ -45,6 +63,7 @@
             <td>{{ tableValue.get_taskOccurence_display }}</td>
             <td>{{ tableValue.taskOwnerId }}</td>
             <td>{{ tableValue.isJE }}</td>
+            <td> {{ tableValue.Due_Date }} </td>
             <td>{{ tableValue.aggregateStatus }}</td>
             <td style="display: none;">{{ tableValue.id }}</td>
         </tr>
@@ -54,7 +73,7 @@
         <tr id="{{ idTemplate }}" class="collapse in">
             <td></td>
             <td><button class="open-button" onclick="openForm()">(...)</button></td>
-            <td colspan="7">{{ subTableValue.subTaskDescription }}</td>
+            <td colspan="8">{{ subTableValue.subTaskDescription }}</td>
             <td>{{ subTableValue.get_subTaskStatus_display }}</td>
             <td style="display: none;"></td>
             <td style="display: none;"></td>
