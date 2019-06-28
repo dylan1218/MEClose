@@ -1,8 +1,8 @@
-{% extends "CloseApplication/base.html" %}
 {% load crispy_forms_tags %}
-{% block title %}Task Checklist{% endblock %}
 {% block content %}
     {% include "CloseApplication/z_formview_template/begin_formview_outline.html" %}
+        <h1 class="mt-2">Task Detail</h1>
+        <hr class="mt-0 mb-4">   
         <p>{{ object.taskId }}</p>
         <p>{{ object.taskDescription }}</p>
         <p>{{ object.taskPeriod }}</p>

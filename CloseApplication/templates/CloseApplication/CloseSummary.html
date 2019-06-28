@@ -1,5 +1,14 @@
 {% extends "CloseApplication/base.html" %}
-{% load static %}
+{% load staticfiles %}
+{% block extrahead %}
+<script src="{% static 'CloseApplication/customJS/close_summary.js' %}"></script>
+<script src="{% static 'CloseApplication/pace.min.js' %}"></script>
+<script src="{% static 'CloseApplication/coreui.min.js' %}?v=00003"></script>
+<script src="{% static 'CloseApplication/Chart.min.js' %}" class="view-script"></script>
+<script src="{% static 'CloseApplication/custom-tooltips.min.js' %}" class="view-script"></script>
+<script src="{% static 'CloseApplication/main.js' %}" class="view-script"></script>
+
+{% endblock %}
 {% block title %}name of the site{% endblock %}
 {% block content %}
         <div class="app-body">

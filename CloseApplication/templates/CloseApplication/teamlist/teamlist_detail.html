@@ -1,19 +1,9 @@
-{% extends "CloseApplication/base.html" %}
-
-{% block title %}Task Checklist{% endblock %}
-{% block content %}
-    
+{% load crispy_forms_tags %}
+    {% include "CloseApplication/z_formview_template/begin_formview_outline.html" %}
+    <h1 class="mt-2">Team Detail</h1>
+    <hr class="mt-0 mb-4"> 
     <p>{{ object.entity }}</p>
-    <p>{{ object.entryNumber }}</p>
-    <p>{{ object.entryReference }}</p>
-    <p>{{ object.entryDescription }}</p>
-    <p>{{ object.postingDate }}</p>
-    <p>{{ object.entryReversed }}</p>
-    <p>{{ object.reversalNumber }}</p>
-    <p>{{ object.postingUsername }}</p>
-    <p>{{ object.supportStatus }}</p>
-    <p>{{ object.approvalStatus }}</p>
-    <p>{{ object.approvalStatus_Description }}</p>
-    <p>{{ object.approverComments }}</p>
+    <p>{{ object.team }}</p>
+    <p>{{ object.teamOwner }}</p>
 
-{% endblock %}
+    {% include "CloseApplication/z_formview_template/end_formview_outline.html" %}

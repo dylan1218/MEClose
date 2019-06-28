@@ -1,11 +1,16 @@
 {% extends "CloseApplication/base.html" %}
 
 {% block title %}name of the site{% endblock %}
+{% load staticfiles %}
+{% block extrahead %}
+<script src="{% static 'CloseApplication/customJS/accountRecList.js' %}?v=00004"></script>
+{% endblock %}
 {% block content %}
 {% include "CloseApplication/listview_outline.html" %}
+<div class="modal" id="modal"></div>
 <table class ="table table-striped table-bordered table-hover" id="accountRecListTable">
     <thead>
-        <tr>
+        <tr>            
             <th></th>
             <th>Entity</th>
             <th>Account Number</th>
@@ -33,9 +38,9 @@
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="/ClosePortal/accountrecs/{{ tableValue.id }}">Detail</a>
-                    <a class="dropdown-item" href="/ClosePortal/accountrecs/update/{{ tableValue.id }}">Edit</a>
-                    <a class="dropdown-item" href="/ClosePortal/accountrecs/delete/{{ tableValue.id }}">Delete</a>
+                    <a class="dropdown-item" id="{{ tableValue.id }}_detail" onclick='return modal_display(this.id)' data-toggle="modal" data-target="#modal" href="/ClosePortal/accountrecs/detail/{{ tableValue.id }}">Detail</a>
+                    <a class="dropdown-item" id="{{ tableValue.id }}_update" onclick='return modal_display(this.id)' data-toggle="modal" data-target="#modal" href="/ClosePortal/accountrecs/update/{{ tableValue.id }}">Edit</a>
+                    <a class="dropdown-item" id="{{ tableValue.id }}_delete" onclick='return modal_display(this.id)' data-toggle="modal" data-target="#modal" href="/ClosePortal/accountrecs/delete/{{ tableValue.id }}">Delete</a>
                 </div>
             </div>
         </td>

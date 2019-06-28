@@ -1,14 +1,9 @@
-{% extends "CloseApplication/base.html" %}
-
-{% block title %}Task Checklist{% endblock %}
-{% block content %}
-    
-    <h1>Are you sure you want to delete this user?</h1>
-    <form  method="post">
+{% include "CloseApplication/z_formview_template/begin_formview_outline.html" %}
+    <h1 class="mt-2">User Delete</h1>
+    <hr class="mt-0 mb-4">
+    <form method="post">
     {% csrf_token %}
-    Are you sure you want to delete this Task?
-    <input  type="submit"  value="Submit"  />
+    Are you sure you want to delete this user?
+    <input type="submit" value="Submit"/>
     </form>
-
-
-{% endblock %}
+{% include "CloseApplication/z_formview_template/end_formview_outline.html" %}

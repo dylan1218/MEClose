@@ -1,6 +1,6 @@
-{% extends "CloseApplication/base.html" %}
-
-{% block title %}Task Checklist{% endblock %}
-{% block content %}
+{% load crispy_forms_tags %}
+{% include "CloseApplication/z_formview_template/begin_formview_outline.html" %}
+    <h1 class="mt-2">User Detail</h1>
+    <hr class="mt-0 mb-4"> 
     <p>{{ object.entity }}</p>
-{% endblock %}
+{% include "CloseApplication/z_formview_template/end_formview_outline.html" %}
