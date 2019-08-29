@@ -2,7 +2,7 @@
 {% block title %}Task Checklist{% endblock %}
 {% load staticfiles %}
 {% block extrahead %}
-<script src="{% static 'CloseApplication/customJS/Task_Checklist.js' %}?v=00003"></script>
+<script src="{% static 'CloseApplication/customJS/Task_Checklist.js' %}?v=00008"></script>
 {% endblock %}
 
 {% block content %}
@@ -22,18 +22,18 @@
             <th>Journal Entry</th>
             <td>Due Date</th>
             <th>Status</th>
+            <th style="display: none;">{{ tableValue.id }}</th>
         </tr>
     </thead>
-
     <tbody class="bg-white">
         {% for tableValue in TaskChecklist_Values %}
         {% with forloopCounter=forloop.counter|stringformat:"s" %}
         {% with idTemplate_Hash="#group-of-rows"|add:forloopCounter %}
         {% with idTemplate="group-of-rows"|add:forloopCounter %}
         <tr data-toggle="collapse" data-target="{{ idTemplate_Hash }}">
-            <td>
+            <td class=" details-control">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary" id="collapseButton" onclick="collapse_Button_Click()">[+]</button>
+                    <button type="button" class="btn btn-primary" id="collapseButton">[+]</button>
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
@@ -57,6 +57,11 @@
             <td>{{ tableValue.aggregateStatus }}</td>
             <td style="display: none;">{{ tableValue.id }}</td>
         </tr>
+
+        <tr>
+        <td colspan="12">
+        <table>
+        <tbody>
         {% for subTableValue in subTasklist_Values %} {# This for loop is killing performance -- to see if we can move the display subtasks for parent tasks to front-end. (i.e. on click open, create sub rows, on click close, clear the sub rows) #}
         {% if tableValue.taskIdKey == subTableValue.Get_Related_Period|stringformat:"s" %}
         {# "stringformat" filter property required as subTableValue.taskId type is foreign key vs. charfield on other table #}
@@ -71,9 +76,26 @@
             <td style="display: none;"></td>
             <td style="display: none;"></td>
             <td style="display: none;"></td>
+            <td style="display: none;"></td>
+            <td style="display: none;"></td>
         </tr>
         {% endif %}
         {% endfor %}
+            </tbody>
+            </table>
+            </td>
+            <td style="display: none;"></td>
+            <td style="display: none;"></td>
+            <td style="display: none;"></td>
+            <td style="display: none;"></td>
+            <td style="display: none;"></td>
+            <td style="display: none;"></td>
+            <td style="display: none;"></td>
+            <td style="display: none;"></td>
+            <td style="display: none;"></td>
+            <td style="display: none;"></td>
+            <td style="display: none;"></td>
+            </tr>
         {% endwith %}
         {% endwith %}
         {% endwith %}

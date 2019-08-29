@@ -33,3 +33,53 @@ function modal_display(clicked_id) {
         });
     };
 };
+
+
+function format() {
+    // `d` is the original data object for the row
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        '<tr>' +
+        '<td>Full name:</td>' +
+        '<td>' + "TEST VAL" + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td>Extension number:</td>' +
+        '<td>' + "TEST VAL" + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td>Extra info:</td>' +
+        '<td>And any further details here (images etc)...</td>' +
+        '</tr>' +
+        '</table>';
+}
+
+$(document).ready(function() {
+    $('#TaskChecklistTable').DataTable({
+        "columns": [{
+            "className": 'details-control',
+            "orderable": false,
+            "data": null,
+            "defaultContent": ''
+        }]
+    });
+    console.log("doc loaded")
+    $('#TaskChecklistTable tbody tr').on('click', '.details-control', function() {
+        var table = $('#Task_ChecklistTable').DataTable();
+        console.log("clicked")
+        var tr = $(this).closest('tr');
+        console.log(tr)
+        console.log(tr[0].getAttribute('id'));
+        var row = table.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
+            // Open this row
+            console.log(row.child())
+            row.child(format()).show();
+            tr.addClass('shown');
+        }
+    });
+});
