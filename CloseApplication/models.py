@@ -243,6 +243,13 @@ class subTaskChecklist(models.Model):
         return self.subTaskDescription
 
 class AccountReconciliationList(models.Model):
+    approvalChoices = (
+        ('Not Started', 'Not Started'),
+        ('Waiting on Support', 'Waiting on Support Upload'),
+        ('Rejected', 'In-Progress'),
+        ('Reverted', 'In-Progress'),
+        ('Approved', 'Completed'), 
+    )
     accountNumber = models.CharField(max_length=50)
     accountDescription = models.CharField(max_length=200)
     accountBalance = models.IntegerField(max_length=200, default=0)
@@ -253,6 +260,9 @@ class AccountReconciliationList(models.Model):
     pub_date = models.DateTimeField('date published')
     due_date = models.DateField(("Due Date"), default=datetime.date.today)
     entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, related_name="entity_AccountReconciliationList", default=1)
+    approvalStatus = models.BooleanField(default=False)
+    approvalStatus_Description = models.CharField(max_length=200, choices = approvalChoices, default=approvalChoices[0][0])
+    approverComments = models.CharField(max_length=200, blank=True)
     #to get rid of due_date field and add calculated method
     #change pub_date to file upload date/attachment date
     #To add a comment field as optional for the client depending on variance
