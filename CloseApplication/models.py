@@ -253,14 +253,18 @@ class AccountReconciliationList(models.Model):
     pub_date = models.DateTimeField('date published')
     due_date = models.DateField(("Due Date"), default=datetime.date.today)
     entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, related_name="entity_AccountReconciliationList", default=1)
-    
+    #to get rid of due_date field and add calculated method
+    #change pub_date to file upload date/attachment date
+    #To add a comment field as optional for the client depending on variance
+    # To add an approved field
+    # To discuss how to dumcnet approvals 
     def File_Path(instance, filename):
         return os.path.join("Journal Entries", str(instance.entity), str(instance.reconciliationYear), str(instance.reconciliationPeriod), str(instance.accountNumber), filename)
     docfile = models.FileField(upload_to=File_Path, default=False) #Note: To consider a way to set the default value equal to a dynamic file template which a user can download, and upload once completed
     def __str__(self):
         return self.accountDescription
 
-
+    #To add a required reconciliation calculated method
 
 class journalEntryApprovalList(models.Model):
     approvalChoices = (
