@@ -23,6 +23,8 @@
             <th>Required</th>
             <th>Owner</th>
             <th>Reviewer</th>
+            <th>Approval Status</th>
+            <th>Comments</th>
             <th>Attachment</td>
         </tr>
     </thead>
@@ -55,6 +57,8 @@
         <td>{{ tableValue.reconciliationStatus }}</td> {# To find a way to let user defined what is required or not #}
         <td>{{ tableValue.reconciliationOwnerId }}</td>
         <td>{{ tableValue.reconciliationOwnerId }}</td> {# To find a way to map owner to reviewer #}
+        <td>{{ tableValue.approvalStatus_Description }}</td>
+        <td>{{ tableValue.approverComments }}</td>
         <td>
             <form action="#" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
