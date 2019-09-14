@@ -1,73 +1,186 @@
-$(document).ready( function () {
+$(document).ready(function() {
     main_Chart();
-    update_Main_Chart_Sub_Data();
+    accountRec_Chart();
+    taskChart();
 });
 
-function update_Main_Chart_Sub_Data(){
+function update_Main_Chart_Sub_Data() {
     $("#userPostingCount").html("5");
-    
+
 }
 
 
 
-function main_Chart()
-{
-    var numberWithCommas = function(x) 
-    {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+function main_Chart() {
+    var numberWithCommas = function(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
     var dataPack1 = [40, 20]; //Note to self -- to utilize AJAX get call to dynamically return data
     var dataPack2 = [10, 0];
     var dates = ["Support Uploaded", "Support Not Uploaded"];
-    
-    var bar_ctx = document.getElementById('main-chart');
+
+    var bar_ctx = document.getElementById('journalentry-chart');
     var bar_chart = new Chart(bar_ctx, {
         type: 'horizontalBar',
         data: {
             labels: dates,
-            datasets: [
-            {
-                label: 'Not Approved',
-                data: dataPack1,
-                            backgroundColor: "#778899",
-                            hoverBackgroundColor: "#778899",
-                            hoverBorderWidth: 0
-            },
-            {
-                label: 'Approved',
-                data: dataPack2,
-                            backgroundColor: "#20a8d8",
-                            hoverBackgroundColor: "#20a8d8", 
-                            hoverBorderWidth: 0
-            },
+            datasets: [{
+                    label: 'Not Approved',
+                    data: dataPack1,
+                    backgroundColor: "#778899",
+                    hoverBackgroundColor: "#778899",
+                    hoverBorderWidth: 0
+                },
+                {
+                    label: 'Approved',
+                    data: dataPack2,
+                    backgroundColor: "#20a8d8",
+                    hoverBackgroundColor: "#20a8d8",
+                    hoverBorderWidth: 0
+                },
             ]
         },
         options: {
-                animation: {
+            animation: {
                 duration: 10,
             },
             tooltips: {
-                        mode: 'label',
-            callbacks: {
-            label: function(tooltipItem, data) { 
-                return data.datasets[tooltipItem.datasetIndex].label + ": " + numberWithCommas(tooltipItem.yLabel);
-            }
-            }
+                mode: 'label',
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        return data.datasets[tooltipItem.datasetIndex].label + ": " + numberWithCommas(tooltipItem.yLabel);
+                    }
+                }
             },
             scales: {
-            xAxes: [{ 
-                stacked: true, 
-                gridLines: { display: false },
+                xAxes: [{
+                    stacked: true,
+                    gridLines: { display: false },
                 }],
-            yAxes: [{ 
-                stacked: true, 
-                ticks: {
+                yAxes: [{
+                    stacked: true,
+                    ticks: {
                         callback: function(value) { return numberWithCommas(value); },
-                        }, 
+                    },
                 }],
             }, // scales
-            legend: {display: true}
+            legend: { display: true }
         } // options
-    }
-    );
+    });
+};
+
+function accountRec_Chart() {
+    var numberWithCommas = function(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+    var dataPack1 = [40, 20]; //Note to self -- to utilize AJAX get call to dynamically return data
+    var dataPack2 = [10, 0];
+    var dates = ["Support Uploaded", "Support Not Uploaded"];
+
+    var bar_ctx = document.getElementById('accountrec-chart');
+    bar_chart = new Chart(bar_ctx, {
+        type: 'horizontalBar',
+        data: {
+            labels: dates,
+            datasets: [{
+                    label: 'Not Approved',
+                    data: dataPack1,
+                    backgroundColor: "#778899",
+                    hoverBackgroundColor: "#778899",
+                    hoverBorderWidth: 0
+                },
+                {
+                    label: 'Approved',
+                    data: dataPack2,
+                    backgroundColor: "#20a8d8",
+                    hoverBackgroundColor: "#20a8d8",
+                    hoverBorderWidth: 0
+                },
+            ]
+        },
+        options: {
+            animation: {
+                duration: 10,
+            },
+            tooltips: {
+                mode: 'label',
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        return data.datasets[tooltipItem.datasetIndex].label + ": " + numberWithCommas(tooltipItem.yLabel);
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    stacked: true,
+                    gridLines: { display: false },
+                }],
+                yAxes: [{
+                    stacked: true,
+                    ticks: {
+                        callback: function(value) { return numberWithCommas(value); },
+                    },
+                }],
+            }, // scales
+            legend: { display: true }
+        } // options
+    });
+};
+
+function taskChart() {
+    var numberWithCommas = function(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+    var dataPack1 = [40, 20]; //Note to self -- to utilize AJAX get call to dynamically return data
+    var dataPack2 = [10, 0];
+    var dates = ["Support Uploaded", "Support Not Uploaded"];
+
+    var bar_ctx = document.getElementById('task-chart');
+    bar_chart = new Chart(bar_ctx, {
+        type: 'horizontalBar',
+        data: {
+            labels: dates,
+            datasets: [{
+                    label: 'Not Approved',
+                    data: dataPack1,
+                    backgroundColor: "#778899",
+                    hoverBackgroundColor: "#778899",
+                    hoverBorderWidth: 0
+                },
+                {
+                    label: 'Approved',
+                    data: dataPack2,
+                    backgroundColor: "#20a8d8",
+                    hoverBackgroundColor: "#20a8d8",
+                    hoverBorderWidth: 0
+                },
+            ]
+        },
+        options: {
+            animation: {
+                duration: 10,
+            },
+            tooltips: {
+                mode: 'label',
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        return data.datasets[tooltipItem.datasetIndex].label + ": " + numberWithCommas(tooltipItem.yLabel);
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    stacked: true,
+                    gridLines: { display: false },
+                }],
+                yAxes: [{
+                    stacked: true,
+                    ticks: {
+                        callback: function(value) { return numberWithCommas(value); },
+                    },
+                }],
+            }, // scales
+            legend: { display: true }
+        } // options
+    });
 };

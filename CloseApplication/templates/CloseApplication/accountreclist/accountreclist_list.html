@@ -3,7 +3,7 @@
 {% block title %}name of the site{% endblock %}
 {% load staticfiles %}
 {% block extrahead %}
-<script src="{% static 'CloseApplication/customJS/accountRecList.js' %}?v=00004"></script>
+<script src="{% static 'CloseApplication/customJS/accountRecList.js' %}?v=00005"></script>
 {% endblock %}
 {% block content %}
 {% include "CloseApplication/listview_outline.html" %}
@@ -17,6 +17,7 @@
             <th>Account Description</th>
             <th>Balance for Period</th>
             <th>Balance for Prior Month</th>
+            <th>Variance</th>
             <th>Year</th>
             <th>Month</th>
             <th>Reconciled Status</th>
@@ -51,6 +52,7 @@
         <td>{{ tableValue.accountDescription }}</td>
         <td>{{ tableValue.accountBalance }}</td>
         <td>{{ tableValue.accountBalance }}</td> {# Need to create template condition to find previous month value#}
+        <td>{{ tableValue.balanceVarianceMoM }}</td>
         <td>{{ tableValue.reconciliationYear }}</td>
         <td>{{ tableValue.reconciliationPeriod }}</td>
         <td>{{ tableValue.reconciliationStatus }}</td>

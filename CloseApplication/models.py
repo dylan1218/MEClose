@@ -177,7 +177,7 @@ class subTaskChecklist(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['taskId', 'subTaskNumber'], name='unique_Subtask')
         ]
-
+    #The properties listed below return data from the associated parent task. 
     @property
     def Sub_dueMonthDay(self):
         related_dueMonthDay = subTaskChecklist.objects.all().get(id=self.id).taskId.dueMonthDay
@@ -273,6 +273,10 @@ class AccountReconciliationList(models.Model):
     docfile = models.FileField(upload_to=File_Path, default=False) #Note: To consider a way to set the default value equal to a dynamic file template which a user can download, and upload once completed
     def __str__(self):
         return self.accountDescription
+    @property
+    def balanceVarianceMoM(self): 
+        priorMonthBalance = AccountReconciliationList.objects.all().get(id=self.id).accountBalance #Note: This query needs to change in order to actually return the prior month, currently just returns self 
+        return self.accountBalance - priorMonthBalance
 
     #To add a required reconciliation calculated method
 
