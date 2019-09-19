@@ -31,6 +31,9 @@ def redirect_view(request): #redirects to CloseSummary if at index URL
 def summaryView(request):
     return render(request, 'CloseApplication/CloseSummary.html')
 
+def notificationView(request):
+    return render(request, 'CloseApplication/NotificationSummary.html')
+
 #Start of subTaskChecklist views:
 class SubTaskChecklist_List(ListView): 
     template_name = 'CloseApplication/subtaskchecklist/subtaskchecklist_list.html'

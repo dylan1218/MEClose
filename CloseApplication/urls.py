@@ -8,6 +8,7 @@ from . import views
 urlpatterns = [
     path('', views.redirect_view, name='redirect'),
     path('CloseSummary/', views.summaryView, name='summaryView'),
+    path('Notifications/', views.notificationView, name='notificationView'),
     #tasks paths
     path('tasks/', views.taskList.as_view(), name='tasklist'),
     path('tasks/detail/<int:pk>', views.TaskChecklistDetail.as_view(), name='taskdetail'),
