@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'channels',
     'crispy_forms',
     'CloseApplication.apps.MonthEndCloseConfig',
 ]
@@ -76,6 +77,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'MonthEndCloseDjango.wsgi.application'
+
+#For channels implementation
+ASGI_APPLICATION = "CloseApplication.routing.application"
 
 
 # Database
