@@ -4,6 +4,7 @@ from django.core.signals import request_finished
 from django.dispatch import receiver
 from .models import TaskChecklist, subTaskChecklist
 from datetime import datetime
+from notifications.signals import notify
 
 #signal logic -- if subtask status change, check if all subtasks completed, if so generate
 #parent task and associated subtasks (not need to confirm not exists before creation)
@@ -96,6 +97,7 @@ def do_something_if_changed(sender, instance, **kwargs):
                     create_Task = TaskChecklist(taskId=relatedTaskChecklistId,taskTBMapping=instance.Sub_Task_TBMapping,taskDescription=instance.Sub_Task_Description,taskYear=instance.Sub_Task_Year + Roll_Year(instance.Sub_Task_Period, instance.Sub_Task_Occurence),dueMonthDay=instance.Sub_dueMonthDay,taskPeriod=Roll_Month(instance.Sub_Task_Period, instance.Sub_Task_Occurence),taskOccurence=instance.Sub_Task_Occurence,taskOwnerId=instance.Sub_Task_OwnerId,isJE=instance.Sub_Task_IsJE,pub_date=datetime.now(),due_date=datetime.now(),entity=instance.Sub_Task_Entity)
                     create_Task.save()
                     associated_Subtasks = sender.objects.all().filter(taskId=instance.taskId).all()
+                    notify.send(instance.Sub_Task_OwnerId, recipient=instance.Sub_Task_OwnerId, verb='New task was created')
                     for subTask in associated_Subtasks:
                         print(next_Task)
                         next_TaskGet = TaskChecklist.objects.all().get(taskId=relatedTaskChecklistId, entity=instance.Sub_Task_Entity, taskYear=instance.Sub_Task_Year + Roll_Year(instance.Sub_Task_Period, instance.Sub_Task_Occurence), taskPeriod=Roll_Month(instance.Sub_Task_Period, instance.Sub_Task_Occurence))

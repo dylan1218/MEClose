@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'channels',
     'crispy_forms',
+    'notifications',
     'CloseApplication.apps.MonthEndCloseConfig',
 ]
 
