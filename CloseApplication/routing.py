@@ -1,5 +1,7 @@
-from channels.routing import ProtocolTypeRouter
+from django.urls import re_path
 
-application = ProtocolTypeRouter({
-    # Empty for now (http->django views is added by default)
-})
+from . import consumers
+
+websocket_urlpatterns = [
+    re_path('ws/notifications/', consumers.ChatConsumer),
+]

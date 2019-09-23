@@ -80,7 +80,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'MonthEndCloseDjango.wsgi.application'
 
 #For channels implementation
-ASGI_APPLICATION = "CloseApplication.routing.application"
+ASGI_APPLICATION = "MonthEndCloseDjango.routing.application"
 
 
 # Database

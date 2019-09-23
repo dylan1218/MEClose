@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db.models.signals import pre_save
 from django.core.signals import request_finished
 from django.dispatch import receiver
-from .models import TaskChecklist, subTaskChecklist
+from .models import TaskChecklist, subTaskChecklist, AccountReconciliationList
 from datetime import datetime
 from notifications.signals import notify
 
@@ -73,6 +73,41 @@ def Roll_Month(month, occurence):
 @receiver(request_finished)
 def my_callback(sender, **kwargs):
     print("Request finished!")
+
+@receiver(pre_save, sender=AccountReconciliationList)
+def notifications_AccountReconciliationList(sender, instance, **kwargs):
+    try:
+        obj = sender.objects.get(pk=instance.pk)
+    except sender.DoesNotExist:
+        pass
+    else:
+        reconciliationOwnerId_Previous = obj.reconciliationOwnerId 
+        reconciliationOwnerId_New = instance.reconciliationOwnerId
+
+        if not reconciliationOwnerId_Previous == reconciliationOwnerId_New:
+            notify.send(instance.reconciliationOwnerId, recipient=instance.reconciliationOwnerId, verb='Account reconciliation XYZ has been assigned to you for MM-YYYY')
+
+@receiver(pre_save, sender=TaskChecklist)
+def notifications_TaskChecklist(sender, instance, **kwargs):
+    try:
+        obj = sender.objects.get(pk=instance.pk)
+    except sender.DoesNotExist:
+        pass
+    else:
+        taskDescription_Previous = obj.taskDescription 
+        taskDescription_New = instance.taskDescription
+        
+        dueMonthDay_Previous = obj.dueMonthDay
+        dueMonthDay_New = instance.dueMonthDay
+        owner_Previous = obj.taskOwnerId
+        owner_New = instance.taskOwnerId
+        
+        if not owner_Previous == owner_New:
+            notify.send(instance.taskOwnerId, recipient=instance.taskOwnerId, verb='Task' + str(instance.__str__) + 'was assigned to you.')
+        if not dueMonthDay_Previous == dueMonthDay_New:
+            notify.send(instance.taskOwnerId, recipient=instance.taskOwnerId, verb='Task' + str(instance.__str__) + 'has changed due dates from month day ' + str(dueMonthDay_Previous) + ' to ' + str(dueMonthDay_New))
+        if not taskDescription_Previous == taskDescription_New:
+            notify.send(instance.taskOwnerId, recipient=instance.taskOwnerId, verb='Task' + str(instance.__str__) + 'has changed descriptions.')
 
 @receiver(pre_save, sender=subTaskChecklist)
 def do_something_if_changed(sender, instance, **kwargs):
