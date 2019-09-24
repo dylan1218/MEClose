@@ -1,35 +1,28 @@
-var notificationSocket = new WebSocket(
-    'ws://' + window.location.host + '/ws/notifications/');
+window.onload = function() {
 
-notificationSocket.onmessage = function(e) {
-    console.log(e)
-    var data = JSON.parse(e.data);
-    var message = data['message'];
-    console.log(message);
-    //document.querySelector('#chat-log').value += (message + '\n');
-};
-
-notificationSocket.onclose = function(e) {
-    console.error('Chat socket closed unexpectedly');
-};
-
-/*
-document.querySelector('#chat-message-input').focus();
-document.querySelector('#chat-message-input').onkeyup = function(e) {
-    if (e.keyCode === 13) { // enter, return
-        document.querySelector('#chat-message-submit').click();
-    }
-};
-*/
-/*
-document.querySelector('#chat-message-submit').onclick = function(e) {
-    var messageInputDom = document.querySelector('#chat-message-input');
-    var message = messageInputDom.value;
-    notificationSocket.send(JSON.stringify({
-        'message': message
-    }));
-
-    messageInputDom.value = '';
+    getSuccessOutput()
 
 };
-*/
+
+function getSuccessOutput() {
+    $.ajax({
+        url: 'http://' + window.location.host + '/inbox/notifications/api/unread_list/',
+        complete: function(response) {
+            console.log(response);
+            console.log(response.responseJSON.unread_list);
+            var counter;
+            var unreadList;
+            var htmlAppend = '';
+            unreadList = response.responseJSON.unread_list
+            for (counter = 0; counter < unreadList.length; counter++) {
+                htmlAppend += '<li class="list-group-item">' + unreadList[counter].verb + '</li>'
+            }
+            $('#notifications_container').html(htmlAppend);
+            console.log(htmlAppend);
+        },
+        error: function() {
+            $('#output').html('Bummer: there was an error!');
+        },
+    });
+    return false;
+}
