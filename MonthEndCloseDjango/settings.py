@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'notifications',
     'CloseApplication.apps.MonthEndCloseConfig',
+    'rest_framework',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

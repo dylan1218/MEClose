@@ -8,6 +8,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from rest_framework import viewsets
+from notifications.models import Notification
+from django.contrib.auth.models import User
+from .serializers import UserSerializer, NotificationSerializer
 from .forms import DocumentForm
 from .models import AccountReconciliationList
 from .models import TaskChecklist
@@ -254,3 +258,18 @@ class taskList(View):
         #return HttpResponse(template.render(context, request)) is the same as return render(request, 'polls/index.html', context)
         return render(request, self.template, context)
         #Render takes argument render(request, Name of html template path, context varialbes)
+
+
+###########
+#API Views#
+###########
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+class NotificationViewSet(viewsets.ModelViewSet):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
