@@ -11,4 +11,4 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class NotificationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Notification
-        fields = ['recipient', 'unread', 'actor_object_id', 'verb', 'description']
+        fields = ['pk','recipient', 'unread', 'actor_object_id', 'verb', 'description']
