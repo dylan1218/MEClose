@@ -87,6 +87,10 @@ def notifications_AccountReconciliationList(sender, instance, **kwargs):
         if not reconciliationOwnerId_Previous == reconciliationOwnerId_New:
             notify.send(instance.reconciliationOwnerId, recipient=instance.reconciliationOwnerId, verb='Account reconciliation XYZ has been assigned to you for MM-YYYY')
 
+#############################################
+#below code utilized to populate the user   #
+#norification models based on model changes #
+#############################################
 @receiver(pre_save, sender=TaskChecklist)
 def notifications_TaskChecklist(sender, instance, **kwargs):
     try:
