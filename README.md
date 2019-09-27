@@ -5,8 +5,13 @@
 1. git
 1. pip
     1. django
-    1. django
-    1. todo
+    1. crispy forms
+    1. django rest
+    ```
+
+    pip install --upgrade django-crispy-forms pandas djangorestframework markdown django notifications
+    pip install django-notifications-hq
+    ```
 
 ## Windows setup
 1. Install git - https://gitforwindows.org/

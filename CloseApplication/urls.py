@@ -1,6 +1,8 @@
 from django.urls import path, include
 from rest_framework import routers
 from . import views
+from django.contrib.auth import views as auth_views
+import django.contrib.auth.urls
 
 router = routers.DefaultRouter()
 router.register(r'api/users', views.UserViewSet)
@@ -55,6 +57,8 @@ urlpatterns = [
     path('teams/create', views.TeamListCreate.as_view(), name='teamlist_create'),
     path('teams/update/<int:pk>', views.TeamListUpdate.as_view(), name='teamlist_update'),
     path('teams/delete/<int:pk>', views.TeamListDelete.as_view(), name='teamlist_delete'),
+    #Account
+    path('accounts/', include('django.contrib.auth.urls')),
     #API paths
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
