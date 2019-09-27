@@ -41,15 +41,19 @@ function getSuccessOutput() {
             var unreadList;
             var htmlAppend = '';
             unreadList = response.responseJSON.unread_list
+            unreadCount = response.responseJSON.unread_list.length
             for (counter = 0; counter < unreadList.length; counter++) {
                 htmlAppend += '<li onclick="binaryReadStatus(this.id)" class="list-group-item" id="notifyPK-' + unreadList[counter].id + '">' + unreadList[counter].verb + '</li>'
             }
             $('#notifications_container').html(htmlAppend);
+            $('#span_notifications_counter').first().html(unreadCount);
+            $('#strong_notifications_counter').first().html('You have ' + unreadCount + ' notifications');
             console.log(htmlAppend);
         },
         error: function() {
             $('#output').html('Bummer: there was an error!');
         },
     });
-    return false;
+
+    setTimeout(getSuccessOutput, 5000);
 }
