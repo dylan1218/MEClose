@@ -5,8 +5,9 @@
 <script src="{% static 'CloseApplication/customJS/Task_Checklist.js' %}?v=00008"></script>
 {% endblock %}
 
-{% block content %}
+
 {% include "CloseApplication/listview_outline.html" %}
+{% block content %}
 <div class="modal" id="modal"></div>
 <table class="table table-bordered table-hover" id="TaskChecklistTable">
     <thead>

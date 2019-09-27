@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    transitionSideBar();
     main_Chart();
     accountRec_Chart();
     taskChart();
@@ -7,6 +8,11 @@ $(document).ready(function() {
 function update_Main_Chart_Sub_Data() {
     $("#userPostingCount").html("5");
 
+}
+
+function transitionSideBar() {
+    document.getElementsByClassName('col-md-2 d-none d-md-block bg-light sidebar')[0].style.setProperty('display', 'none', 'important');
+    document.getElementsByClassName('col-md-10 col-lg-10')[0].className = 'col-lg-auto'
 }
 
 

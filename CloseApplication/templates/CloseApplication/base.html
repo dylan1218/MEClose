@@ -17,11 +17,12 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'CloseApplication/jquery.dataTables.min.css' %}">
+    <link rel="stylesheet" href="{% static 'CloseApplication/sidenavbar.css' %}">
     <script src="{% static 'CloseApplication/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'CloseApplication/perfect-scrollbar.min.js' %}"></script>
     <script src="{% static 'CloseApplication/customJS/notifications.js' %}?v=00007"></script>
     <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
-    <link rel="stylesheet" href="{% static 'CloseApplication/coreui.min.css' %}"></script>
+    <link rel="stylesheet" href="{% static 'CloseApplication/coreui.min.css' %}?v=0001"></script>
 
     {# utilize these tags to specify template specific css and js #}
     {% block extrahead %}{% endblock extrahead %}
@@ -90,12 +91,22 @@ Notifications
 
         </div>
       </nav>
-      <br>
+
       
     <div class="page-wrap">
-        <div class="animated fadeIn">
+    <div class='conainer-fluid'>
+    <div class="row">
+
+
+        {% include "CloseApplication/sidebarnav.html" %}
+        <main role="main" class="col-md-10 col-lg-10">
         {% block content %}{% endblock %}
+        </main>
+        <!--row -->
         </div>
+        <!--container-fluid-->
+        </div>
+        <!--page-wrap-->
     </div>
 
     <footer class="site-footer">

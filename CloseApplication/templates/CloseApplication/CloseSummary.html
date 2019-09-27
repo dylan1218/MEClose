@@ -1,7 +1,7 @@
 {% extends "CloseApplication/base.html" %}
 {% load staticfiles %}
 {% block extrahead %}
-<script src="{% static 'CloseApplication/customJS/close_summary.js' %}?v=00003"></script>
+<script src="{% static 'CloseApplication/customJS/close_summary.js' %}?v=00005"></script>
 <script src="{% static 'CloseApplication/pace.min.js' %}"></script>
 <script src="{% static 'CloseApplication/coreui.min.js' %}?v=00003"></script>
 <script src="{% static 'CloseApplication/Chart.min.js' %}" class="view-script"></script>
@@ -12,7 +12,6 @@
 {% block title %}MEClose{% endblock %}
 {% block content %}
         <div class="app-body">
-          <main class="main">
             <!-- Breadcrumb-->
             <div class="container-fluid">
               <div class="animated fadeIn">
@@ -270,7 +269,6 @@
                 <!-- /.row-->
               </div>
             </div>
-          </main>
         </div>
         <!-- Plugins and scripts required by this view-->
         <script src="node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js"></script>

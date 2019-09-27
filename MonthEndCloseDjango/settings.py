@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'notifications',
     'CloseApplication.apps.MonthEndCloseConfig',
     'rest_framework',
+    'AccountRecList.apps.AccountRecListConfig',
+    'CompanyMaintain.apps.CompanyMaintainConfig',
+    'JournalEntryList.apps.JournalEntryListConfig',
+    'TaskCheckList.apps.TaskCheckListConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
