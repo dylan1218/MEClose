@@ -19,6 +19,10 @@ from django.utils.decorators import method_decorator
 
 decorators = [login_required]
 
+#MEClose
+from .serializers import UserSerializer, NotificationSerializer, TaskChecklistSerializer, subTaskChecklistSerializer, userDefinedEntitySerializer
+from TaskCheckList.models import TaskChecklist, subTaskChecklist
+from CompanyMaintain.models import userDefinedEntity
 
 
 #these functions return a response to a given web page. Each of these functions coorespond
@@ -42,3 +46,15 @@ class UserViewSet(viewsets.ModelViewSet):
 class NotificationViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
+
+class TaskChecklistViewSet(viewsets.ModelViewSet):
+    queryset = TaskChecklist.objects.all()
+    serializer_class = TaskChecklistSerializer
+
+class subTaskChecklistViewSet(viewsets.ModelViewSet):
+    queryset = subTaskChecklist.objects.all()
+    serializer_class = subTaskChecklistSerializer  
+
+class userDefinedEntityViewSet(viewsets.ModelViewSet):
+    queryset = userDefinedEntity.objects.all()
+    serializer_class = userDefinedEntitySerializer  
