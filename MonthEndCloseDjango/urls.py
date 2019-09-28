@@ -22,6 +22,7 @@ import notifications.urls
 
 urlpatterns = [
     path('ClosePortal/', include('CloseApplication.urls')), #note to self, change 'polls/' to other url for testing
+    path('api/', include('CloseAPI.urls')),
     path('admin/', admin.site.urls),
     url('^inbox/notifications/', include(notifications.urls, namespace='notifications')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

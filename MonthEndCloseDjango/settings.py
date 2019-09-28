@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'CompanyMaintain.apps.CompanyMaintainConfig',
     'JournalEntryList.apps.JournalEntryListConfig',
     'TaskCheckList.apps.TaskCheckListConfig',
+    'CloseAPI.apps.CloseAPIConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

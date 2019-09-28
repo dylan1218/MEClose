@@ -63,16 +63,8 @@ urlpatterns = [
     path('teams/create', TeamListCreate.as_view(), name='teamlist_create'),
     path('teams/update/<int:pk>', TeamListUpdate.as_view(), name='teamlist_update'),
     path('teams/delete/<int:pk>', TeamListDelete.as_view(), name='teamlist_delete'),
-    path('teams/', views.TeamList_List.as_view(), name='teamlist'),
-    path('teams/detail/<int:pk>', views.TeamListDetail.as_view(), name='teamlist_detail'),
-    path('teams/create', views.TeamListCreate.as_view(), name='teamlist_create'),
-    path('teams/update/<int:pk>', views.TeamListUpdate.as_view(), name='teamlist_update'),
-    path('teams/delete/<int:pk>', views.TeamListDelete.as_view(), name='teamlist_delete'),
     #Account
     path('accounts/', include('django.contrib.auth.urls')),
-    #API paths
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
 #path takes arguments (Name path for URL, function from views that handles the html file, and description)
