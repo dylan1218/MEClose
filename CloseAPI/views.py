@@ -14,6 +14,10 @@ from rest_framework import generics
 from notifications.models import Notification
 from django.contrib.auth.models import User
 from .serializers import UserSerializer, NotificationSerializer
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+decorators = [login_required]
 
 
 
@@ -26,6 +30,7 @@ from .serializers import UserSerializer, NotificationSerializer
 ###########
 #API Views#
 ###########
+@method_decorator(decorators, name='dispatch')
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -33,6 +38,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
 
+@method_decorator(decorators, name='dispatch')
 class NotificationViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer

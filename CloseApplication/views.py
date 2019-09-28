@@ -15,6 +15,10 @@ from notifications.models import Notification
 from django.contrib.auth.models import User
 from .serializers import UserSerializer, NotificationSerializer
 from .forms import DocumentForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+decorators = [login_required]
 
 
 
@@ -23,20 +27,21 @@ from .forms import DocumentForm
 
 # class TaskChecklistList(ListView): #Not in use for now
 #     model = TaskChecklist
-
+@login_required()
 def redirect_view(request): #redirects to CloseSummary if at index URL
     response = redirect('/ClosePortal/CloseSummary/')
     return response
-
+@login_required()
 def summaryView(request):
     return render(request, 'CloseApplication/CloseSummary.html')
-
+@login_required()
 def notificationView(request):
     return render(request, 'CloseApplication/NotificationSummary.html')
 
 ###########
 #API Views#
 ###########
+@method_decorator(decorators, name='dispatch')
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -44,6 +49,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
 
+@method_decorator(decorators, name='dispatch')
 class NotificationViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
