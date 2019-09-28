@@ -11,6 +11,10 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from .models import journalEntryApprovalList
 from CloseApplication.forms import DocumentForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+decorators = [login_required]
 
 
 
@@ -21,6 +25,7 @@ from CloseApplication.forms import DocumentForm
 #     model = TaskChecklist
 
 #Start of EntryApproval_List views:
+@method_decorator(decorators, name='dispatch')
 class EntryApproval_List(View):
     template = 'CloseApplication/entryapprovallist/entryapprovallist_list.html'
     model = journalEntryApprovalList
@@ -46,21 +51,24 @@ class EntryApproval_List(View):
             return render(request, self.template, {'form': form})
 
 
-
+@method_decorator(decorators, name='dispatch')
 class EntryApprovalDetail(DetailView): 
     template_name = 'CloseApplication/entryapprovallist/entryapprovallist_detail.html'
     model = journalEntryApprovalList
 
+@method_decorator(decorators, name='dispatch')
 class EntryApprovalCreate(CreateView): 
     template_name = 'CloseApplication/entryapprovallist/entryapprovallist_form.html'
     model = journalEntryApprovalList
     fields = '__all__'
 
+@method_decorator(decorators, name='dispatch')
 class EntryApprovalUpdate(UpdateView): 
     template_name = 'CloseApplication/entryapprovallist/entryapprovallist_form.html'
     model = journalEntryApprovalList
     fields = '__all__'
 
+@method_decorator(decorators, name='dispatch')
 class EntryApprovalDelete(DeleteView): 
     template_name = 'CloseApplication/entryapprovallist/entryapprovallist_delete.html'
     model = journalEntryApprovalList

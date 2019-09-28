@@ -63,8 +63,6 @@ urlpatterns = [
     path('teams/create', TeamListCreate.as_view(), name='teamlist_create'),
     path('teams/update/<int:pk>', TeamListUpdate.as_view(), name='teamlist_update'),
     path('teams/delete/<int:pk>', TeamListDelete.as_view(), name='teamlist_delete'),
-    #Account
-    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 #path takes arguments (Name path for URL, function from views that handles the html file, and description)

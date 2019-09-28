@@ -12,51 +12,63 @@ from django.contrib.auth.models import User
 from CloseApplication.forms import DocumentForm
 from .models import TaskChecklist
 from .models import subTaskChecklist
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+decorators = [login_required]
 
 
-#Start of subTaskChecklist views:
+@method_decorator(decorators, name='dispatch')
 class SubTaskChecklist_List(ListView): 
     template_name = 'CloseApplication/subtaskchecklist/subtaskchecklist_list.html'
     model = subTaskChecklist
 
+@method_decorator(decorators, name='dispatch')
 class SubTaskChecklistDetail(DetailView): 
     template_name = 'CloseApplication/subtaskchecklist/subtaskchecklist_detail.html'
     model = subTaskChecklist
 
+@method_decorator(decorators, name='dispatch')
 class SubTaskChecklistCreate(CreateView): 
     template_name = 'CloseApplication/subtaskchecklist/subtaskchecklist_form.html'
     model = subTaskChecklist
     fields = '__all__'
 
+@method_decorator(decorators, name='dispatch')
 class SubTaskChecklistUpdate(UpdateView): 
     template_name = 'CloseApplication/subtaskchecklist/subtaskchecklist_form.html'
     model = subTaskChecklist
     fields = '__all__'
 
+@method_decorator(decorators, name='dispatch')
 class SubTaskChecklistDelete(DeleteView): 
     template_name = 'CloseApplication/subtaskchecklist/subtaskchecklist_delete.html'
     model = subTaskChecklist
 
 #Start of TaskChecklistDetail views:
+@method_decorator(decorators, name='dispatch')
 class TaskChecklistDetail(DetailView):
     template_name = 'CloseApplication/taskchecklist/taskchecklist_detail.html'
     model = TaskChecklist
 
+@method_decorator(decorators, name='dispatch')
 class TaskChecklistCreate(CreateView):
     template_name = 'CloseApplication/taskchecklist/taskchecklist_form.html'
     model = TaskChecklist
     fields = '__all__'
 
+@method_decorator(decorators, name='dispatch')
 class TaskChecklistUpdate(UpdateView):
     template_name = 'CloseApplication/taskchecklist/taskchecklist_form.html'
     model = TaskChecklist
     fields = '__all__'
 
-
+@method_decorator(decorators, name='dispatch')
 class TaskChecklistDelete(DeleteView):
     template_name = 'CloseApplication/taskchecklist/taskchecklist_delete.html'
     model = TaskChecklist
 
+@method_decorator(decorators, name='dispatch')
 class taskList(View):
     template = 'CloseApplication/taskchecklist/taskchecklist_list.html'
     def get(self, request, *args, **kwargs):

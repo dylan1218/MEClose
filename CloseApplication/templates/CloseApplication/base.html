@@ -80,11 +80,22 @@ Notifications
 </div>
 </li>
               <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Profile
-              </a>
-              <ul id="nav-settings__dropdown-options" class="dropdown-options nav-settings__dropdown-options dropdown-options--expanded ember-view">
-              </ul>
+                  <div class="btn-group">
+                      {% if user.is_authenticated %}
+                        <span  class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.get_username }}
+                        </span>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="{% url 'logout'%}?next={{request.path}}" class="dropdown-item" type="button">Logout</a>
+                            <a href="#" class="dropdown-item" type="button">Profile</a>
+                            <a href="#" class="dropdown-item" type="button">Settings</a>
+                        </div>
+                        {% else %}
+                        <div  href="{% url 'login'%}?next={{request.path}}" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        Login
+                        </div>
+                        {% endif %} 
+                    </div>
             </li>
           </ul>
 

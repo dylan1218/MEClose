@@ -11,7 +11,10 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from CloseApplication.forms import DocumentForm
 from .models import AccountReconciliationList
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
+decorators = [login_required]
 
 
 #these functions return a response to a given web page. Each of these functions coorespond
@@ -19,7 +22,7 @@ from .models import AccountReconciliationList
 
 # class TaskChecklistList(ListView): #Not in use for now
 #     model = TaskChecklist
-
+@method_decorator(decorators, name='dispatch')
 class AccountRecList_List(View):
     template = 'CloseApplication/accountreclist/accountreclist_list.html'
     model = AccountReconciliationList
@@ -44,21 +47,24 @@ class AccountRecList_List(View):
             form=DocumentForm()
             return render(request, self.template, {'form': form})
 
-
+@method_decorator(decorators, name='dispatch')
 class AccountRecListDetail(DetailView): 
     template_name = 'CloseApplication/accountreclist/accountreclist_detail.html'
     model = AccountReconciliationList
 
+@method_decorator(decorators, name='dispatch')
 class AccountRecListCreate(CreateView): #Not in use for now
     template_name = 'CloseApplication/accountreclist/accountreclist_form.html'
     model = AccountReconciliationList
     fields = '__all__'
 
+@method_decorator(decorators, name='dispatch')
 class AccountRecListUpdate(UpdateView):
     template_name = 'CloseApplication/accountreclist/accountreclist_form.html'
     model = AccountReconciliationList
     fields = '__all__'
 
+@method_decorator(decorators, name='dispatch')
 class AccountRecListDelete(DeleteView): #Not in use for now
     template_name = 'CloseApplication/accountreclist/accountreclist_delete.html'
     model = AccountReconciliationList
