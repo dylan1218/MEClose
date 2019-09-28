@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#accountRecListTable').DataTable();
+    //$('#accountRecListTable').DataTable();
     console.log(location.href)
     console.log(window.location.pathname)
 });

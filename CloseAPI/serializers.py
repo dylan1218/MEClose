@@ -14,7 +14,8 @@ class NotificationSerializer(serializers.HyperlinkedModelSerializer):
         model = Notification
         fields = ['pk','recipient', 'unread', 'actor_object_id', 'verb', 'description']
 
-class TaskChecklistSerializer(serializers.HyperlinkedModelSerializer):
+class TaskChecklistSerializer(serializers.ModelSerializer):
+    taskId_taskId = serializers.StringRelatedField(many=True) #taskId_taskId is the related field name to the task checklist on the subtask checklist
     class Meta:
         model = TaskChecklist
         fields = '__all__'

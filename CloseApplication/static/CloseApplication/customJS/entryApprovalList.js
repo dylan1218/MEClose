@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#EntryApproval_ChecklistTable').DataTable();
+    //$('#EntryApproval_ChecklistTable').DataTable();
 });
 
 
