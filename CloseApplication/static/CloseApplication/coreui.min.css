@@ -3033,7 +3033,6 @@ input[type=submit].btn-block {
 }
 
 .navbar {
-    position: relative;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;
@@ -3042,7 +3041,6 @@ input[type=submit].btn-block {
     align-items: center;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    padding: .5rem 1rem;
     width: 100%;
 }
 
@@ -3699,7 +3697,11 @@ canvas {
 
 body {
     -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased
+    -webkit-font-smoothing: antialiased;
+}
+
+main {
+    padding-top: 70px;
 }
 
 .text-value {

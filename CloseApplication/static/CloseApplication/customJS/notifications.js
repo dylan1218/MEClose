@@ -14,7 +14,7 @@ function binaryReadStatus(notifyPK) {
         unread: 'False'
     }
     var request = $.ajax({
-        url: 'http://' + window.location.host + '/ClosePortal/api/notifications/' + notifyPK_Parse + '/',
+        url: 'http://' + window.location.host + '/api/notifications/' + notifyPK_Parse + '/',
         type: "PATCH",
         data: JSON.stringify(readChangeData),
         dataType: "json",

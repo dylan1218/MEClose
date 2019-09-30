@@ -1,5 +1,4 @@
 from django.urls import path, include
-from rest_framework import routers
 from . import views
 from django.contrib.auth import views as auth_views
 import django.contrib.auth.urls
@@ -9,10 +8,7 @@ from AccountRecList.views import AccountRecList_List, AccountRecListCreate, Acco
 from CompanyMaintain.views import Entity_List, EntityCreate, EntityDelete, EntityDetail, EntityUpdate, UserList_List, UserListCreate, UserListDelete, UserListDetail, UserListUpdate, TeamList_List, TeamListCreate, TeamListDelete, TeamListDetail, TeamListUpdate
 from JournalEntryList.views import EntryApproval_List, EntryApprovalCreate, EntryApprovalDelete, EntryApprovalDetail, EntryApprovalUpdate
 from TaskCheckList.views import TaskChecklist, TaskChecklistCreate, TaskChecklistDelete, TaskChecklistDetail, TaskChecklistUpdate, taskList, subTaskChecklist, SubTaskChecklist_List, SubTaskChecklistCreate, SubTaskChecklistDelete, SubTaskChecklistDetail, SubTaskChecklistUpdate 
-from .views import redirect_view, summaryView, notificationView, UserViewSet, NotificationViewSet
-router = routers.DefaultRouter()
-router.register(r'api/users', UserViewSet)
-router.register(r'api/notifications', NotificationViewSet)
+from .views import redirect_view, summaryView, notificationView
 
 #one to one relationship between urls and views module.
 #note second agument to path takes the views.Method/Function from views

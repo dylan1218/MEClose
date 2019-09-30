@@ -13,7 +13,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from notifications.models import Notification
 from django.contrib.auth.models import User
-from .serializers import UserSerializer, NotificationSerializer
 from .forms import DocumentForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -38,18 +37,4 @@ def summaryView(request):
 def notificationView(request):
     return render(request, 'CloseApplication/NotificationSummary.html')
 
-###########
-#API Views#
-###########
-@method_decorator(decorators, name='dispatch')
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
 
-@method_decorator(decorators, name='dispatch')
-class NotificationViewSet(viewsets.ModelViewSet):
-    queryset = Notification.objects.all()
-    serializer_class = NotificationSerializer
