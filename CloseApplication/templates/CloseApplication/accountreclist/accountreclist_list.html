@@ -18,8 +18,6 @@
             <th>Balance for Period</th>
             <th>Balance for Prior Month</th>
             <th>Variance</th>
-            <th>Year</th>
-            <th>Month</th>
             <th>Reconciled Status</th>
             <th>Required</th>
             <th>Owner</th>
@@ -51,14 +49,12 @@
         <td>{{ tableValue.accountNumber }}</td>
         <td>{{ tableValue.accountDescription }}</td>
         <td>{{ tableValue.accountBalance }}</td>
-        <td>{{ tableValue.accountBalance }}</td> {# Need to create template condition to find previous month value#}
+        <td>{{ tableValue.accountBalancePriorMonth }}</td> {# Need to create template condition to find previous month value#}
         <td>{{ tableValue.balanceVarianceMoM }}</td>
-        <td>{{ tableValue.accountClosePeriod }}</td>
-        <td>{{ tableValue.accountClosePeriod }}</td>
         <td>{{ tableValue.reconciliationStatus }}</td>
-        <td>{{ tableValue.reconciliationStatus }}</td> {# To find a way to let user defined what is required or not #}
+        <td>{{ tableValue.reconciliationRequired }}</td> {# To find a way to let user defined what is required or not #}
         <td>{{ tableValue.reconciliationOwnerId }}</td>
-        <td>{{ tableValue.reconciliationOwnerId }}</td> {# To find a way to map owner to reviewer #}
+        <td>{{ tableValue.reviewer }}</td> {# To find a way to map owner to reviewer #}
         <td>{{ tableValue.approvalStatus_Description }}</td>
         <td>{{ tableValue.approverComments }}</td>
         <td>

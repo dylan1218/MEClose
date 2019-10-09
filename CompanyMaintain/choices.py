@@ -1,4 +1,10 @@
 
+approvalChoicesAccountRec = (
+        ('Not Started', 'Not Started'),
+        ('Rejected', 'In-Progress'),
+        ('Approved', 'Completed'), 
+)
+
 approvalChoices = (
     ('Not Started', 'Not Started'),
     ('Waiting on Support', 'Waiting on Support Upload'),

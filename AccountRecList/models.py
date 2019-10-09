@@ -8,21 +8,18 @@ from dateutil import relativedelta
 #MEClose imports
 from CompanyMaintain.models import userDefinedEntity
 from CompanyMaintain.choices import periodChoices, statusChoices
+from CompanyMaintain.services import getReviewer
 
 class AccountReconciliationListThresholds(models.Model):
+    #to reasses whether these fields havethe appropriate types. 
     dollarValueThreshold = models.CharField(max_length=200, default=0)
     percentValueThreshold = models.CharField(max_length=200, default=0)
-    def __str__(self):
+    excludedAccounts = models.CharField(max_length=200, default=0)
+    def __str__(self): 
         return str(self.id)
         
 class AccountReconciliationList(models.Model):
-    approvalChoices = (
-        ('Not Started', 'Not Started'),
-        ('Waiting on Support', 'Waiting on Support Upload'),
-        ('Rejected', 'In-Progress'),
-        ('Reverted', 'In-Progress'),
-        ('Approved', 'Completed'), 
-    )
+
     accountNumber = models.CharField(max_length=50)
     accountDescription = models.CharField(max_length=200)
     accountBalance = models.IntegerField(max_length=200, default=0)
@@ -34,7 +31,6 @@ class AccountReconciliationList(models.Model):
     due_date = models.DateField(("Due Date"), default=datetime.date.today)
     entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, related_name="entity_AccountReconciliationList", default=1)
     approvalStatus = models.BooleanField(default=False)
-    approvalStatus_Description = models.CharField(max_length=200, choices = approvalChoices, default=approvalChoices[0][0])
     approverComments = models.CharField(max_length=200, blank=True)
     #to get rid of due_date field and add calculated method
     #change pub_date to file upload date/attachment date
@@ -63,14 +59,46 @@ class AccountReconciliationList(models.Model):
 
 
     @property
+    def reviewer(self):
+        reviewerUser = getReviewer(self.reconciliationOwnerId, self.entity)
+        return reviewerUser.get_reviewer
+    
+    @property
     def reconciliationRequired(self):
-        percentChangeThreshold = int(AccountReconciliationListThresholds.all().first().dollarValueThreshold)
-        dollarChangeThreshold = int(AccountReconciliationListThresholds.all().first().percentValueThreshold)
-        if self.accountBalance == 0 and self.accountBalancePriorMonth == 0:
-            return False
-        elif (self.balanceVarianceMoM / self.accountBalancePriorMonth) > percentChangeThreshold or abs(self.balanceVarianceMoM) > dollarChangeThreshold:
+        percentChangeThreshold = int(AccountReconciliationListThresholds.objects.all().first().dollarValueThreshold)
+        dollarChangeThreshold = float(AccountReconciliationListThresholds.objects.all().first().percentValueThreshold)
+        excludedAccounts = AccountReconciliationListThresholds.objects.all().first().excludedAccounts
+        #converts the 0 string to an interger if the string is equal to 0. 0 indicates the user does not want a filter for specific accounts.
+        if excludedAccounts == "0":
+            excludedAccounts = int(excludedAccounts)
+
+        #first condition is if client does not want any thresholds
+        if percentChangeThreshold == 0 and dollarChangeThreshold == 0 and excludedAccounts == 0:
             return True
-        else:
-            return False
+        #second condition is if client wants percent and dollar threshold, but not an account filter
+        elif percentChangeThreshold != 0 and dollarChangeThreshold != 0 and excludedAccounts == 0:
+            if self.accountBalance == 0 and self.accountBalancePriorMonth == 0:
+                return False
+            elif (self.balanceVarianceMoM / self.accountBalancePriorMonth) > percentChangeThreshold or abs(self.balanceVarianceMoM) > dollarChangeThreshold:
+                return True
+            else:
+                return False
+        #third condition is if client wants percent threshold, but no others
+        elif percentChangeThreshold !=0 and dollarChangeThreshold == 0 and excludedAccounts == 0:
+            if self.accountBalance == 0 and self.accountBalancePriorMonth == 0:
+                return False
+            elif (self.balanceVarianceMoM / self.accountBalancePriorMonth) > percentChangeThreshold:
+                return True
+            else:
+                return False
+        #fourth condition is if clients dollar shreshold, but no others
+        elif percentChangeThreshold == 0 and dollarChangeThreshold != 0 and excludedAccounts == 0:
+            if self.accountBalance == 0 and self.accountBalancePriorMonth == 0:
+                return False
+            elif (self.balanceVarianceMoM / self.accountBalancePriorMonth) > percentChangeThreshold:
+                return True
+            else:
+                return False
+     
 
     #To add a required reconciliation calculated method
