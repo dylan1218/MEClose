@@ -37,9 +37,12 @@ class AccountReconciliationList(models.Model):
     #To add a comment field as optional for the client depending on variance
     # To add an approved field
     # To discuss how to dumcnet approvals 
+    
     def File_Path(instance, filename):
-        return os.path.join("Journal Entries", str(instance.entity), str(instance.accountClosePeriod), str(instance.accountNumber), filename)
+        return os.path.join("Account Reconciliations", str(instance.entity), str(instance.accountClosePeriod), str(instance.accountNumber), filename)
+    
     docfile = models.FileField(upload_to=File_Path, default=False) #Note: To consider a way to set the default value equal to a dynamic file template which a user can download, and upload once completed
+    
     def __str__(self):
         return self.accountDescription
     
