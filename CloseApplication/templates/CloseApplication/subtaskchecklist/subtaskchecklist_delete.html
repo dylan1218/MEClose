@@ -7,7 +7,15 @@
     <form  method="post">
     {% csrf_token %}
     Are you sure you want to delete this Task?
-    <input  type="submit"  value="Submit"  />
+    {% if perms.subTaskChecklist.delete %}
+        <input class="submit-btn btn btn-primary" type="submit" value="Submit"/>
+    {% else %}
+        <div class="alert alert-danger" role="alert">
+            Not authorise to delete tasks
+        </div>
+        <input class="submit-btn btn btn-secondary" type="submit" value="Submit" disabled/>
+    {% endif %}    
+    <input type="submit" value="Submit"/>
     </form>
 
 

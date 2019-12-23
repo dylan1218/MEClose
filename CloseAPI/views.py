@@ -20,10 +20,10 @@ from django.utils.decorators import method_decorator
 decorators = [login_required]
 
 #MEClose
-from .serializers import UserSerializer, NotificationSerializer, TaskChecklistSerializer, subTaskChecklistSerializer, userDefinedEntitySerializer
+from .serializers import UserSerializer, NotificationSerializer, TaskChecklistSerializer, subTaskChecklistSerializer, userDefinedEntitySerializer, AccountReconciliationListSerializer
 from TaskCheckList.models import TaskChecklist, subTaskChecklist
 from CompanyMaintain.models import userDefinedEntity
-
+from AccountRecList.models import AccountReconciliationList
 
 #these functions return a response to a given web page. Each of these functions coorespond
 #to a web page name. Note that each method in here has a one to one relationship to url.py
@@ -47,14 +47,22 @@ class NotificationViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
 
+@method_decorator(decorators, name='dispatch')
 class TaskChecklistViewSet(viewsets.ModelViewSet):
     queryset = TaskChecklist.objects.all()
     serializer_class = TaskChecklistSerializer
 
+@method_decorator(decorators, name='dispatch')
 class subTaskChecklistViewSet(viewsets.ModelViewSet):
     queryset = subTaskChecklist.objects.all()
     serializer_class = subTaskChecklistSerializer  
 
+@method_decorator(decorators, name='dispatch')
 class userDefinedEntityViewSet(viewsets.ModelViewSet):
     queryset = userDefinedEntity.objects.all()
     serializer_class = userDefinedEntitySerializer  
+
+@method_decorator(decorators, name='dispatch')
+class AccountReconciliationListViewSet(viewsets.ModelViewSet):
+    queryset = AccountReconciliationList.objects.all()
+    serializer_class = AccountReconciliationListSerializer 

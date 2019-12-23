@@ -24,7 +24,7 @@ def get_ReconciledBalance(sender, instance, **kwargs):
         docfile_New_Name = os.path.basename(docfile_New.name)
         filePathNew = MEDIA_ROOT + "\\" + instance.File_Path(filename=docfile_New_Name)
         reconciledBalanceGet = Get_Reconciled_Balance(instance.accountClosePeriod.month, instance.accountClosePeriod.year, instance.entity, instance.accountNumber, filePathNew)
-        AccountReconciliationList.objects.filter(id=instance.id).update(approverComments=reconciledBalanceGet)
+        AccountReconciliationList.objects.filter(id=instance.id).update(accountBalanceReconciled=reconciledBalanceGet)
         '''
         currentAccountRec.approverComments = reconciledBalanceGet
         currentAccountRec.save()
@@ -38,16 +38,11 @@ def notifications_AccountReconciliationList(sender, instance, **kwargs):
     else:
         reconciliationOwnerId_Previous = obj.reconciliationOwnerId 
         reconciliationOwnerId_New = instance.reconciliationOwnerId
-        docfile_Previous = obj.docfile
-        docfile_New = instance.docfile
+        accountBalanceReconciled_Previous = obj.accountBalanceReconciled
+        accountBalanceReconciled_New = instance.accountBalanceReconciled
+
         if not reconciliationOwnerId_Previous == reconciliationOwnerId_New:
             notify.send(instance.reconciliationOwnerId, recipient=instance.reconciliationOwnerId, verb='Account reconciliation XYZ has been assigned to you for MM-YYYY')
-        '''
-        if not docfile_Previous == docfile_New:
-            filePathNew = MEDIA_ROOT + "\\" + instance.File_Path(filename=docfile_New.name)
-            reconciledBalanceGet = Get_Reconciled_Balance(instance.accountClosePeriod.month, instance.accountClosePeriod.year, instance.entity, instance.accountNumber, filePathNew)
-            print(reconciledBalanceGet)
-            currentAccountRec = AccountReconciliationList.objects.all().get(pk=instance.pk)
-            currentAccountRec.approverComments = reconciledBalanceGet
-            currentAccountRec.save()
-        '''
+
+        if not accountBalanceReconciled_Previous == accountBalanceReconciled_New:
+            print("Change in reconciled status")#Temporary result, to change at a later point

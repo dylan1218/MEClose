@@ -12,3 +12,10 @@ class getReviewer:
             return "No reviewer mapping found"
         else:
             return reviewerListMatch.first().userReviewer
+    
+    def get_reviewer_systemIdentifier(self):
+        reviewerListMatch = userReviewerMapping.objects.all().filter(entity=self.assignedUserEntity, systemIdentifier=self.assignedUser)
+        if reviewerListMatch.first() == None:
+            return "No reviewer mapping found"
+        else:
+            return reviewerListMatch.first().userReviewer

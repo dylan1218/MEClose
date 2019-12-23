@@ -23,6 +23,7 @@ class AccountReconciliationList(models.Model):
     accountNumber = models.CharField(max_length=50)
     accountDescription = models.CharField(max_length=200)
     accountBalance = models.IntegerField(max_length=200, default=0)
+    accountBalanceReconciled = models.IntegerField(max_length=200, default=0)
     accountBalancePriorMonth = models.IntegerField(max_length=200, default=0)
     accountClosePeriod = models.DateField(("As of balance date"), default=datetime.date.today)
     reconciliationOwnerId = models.ForeignKey(User, on_delete=models.CASCADE) #to evaluate if this actually works
@@ -46,6 +47,10 @@ class AccountReconciliationList(models.Model):
     def __str__(self):
         return self.accountDescription
     
+    @property
+    def reconciledStatus(self):
+        return round(self.accountBalance) == round(self.accountBalanceReconciled)
+
     @property
     def priorMonthReconciliation(self):   
         firstDayofMonth = datetime.date(self.accountClosePeriod.year,self.accountClosePeriod.month, self.accountClosePeriod.day).replace(day=1)

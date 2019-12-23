@@ -8,7 +8,7 @@ import pandas as pd
 #MEClose imports
 from CompanyMaintain.models import userDefinedEntity
 from CompanyMaintain.choices import periodChoices, statusChoices, binaryChoice
-
+from CompanyMaintain.services import getReviewer
 
 class journalEntryApprovalList(models.Model):
     approvalChoices = (
@@ -38,3 +38,8 @@ class journalEntryApprovalList(models.Model):
 
     def __str__(self):
         return self.entryDescription
+    
+    @property
+    def reviewer(self):
+        reviewerUser = getReviewer(self.postingUsername, self.entity)
+        return reviewerUser.get_reviewer_systemIdentifier

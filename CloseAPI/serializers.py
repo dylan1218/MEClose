@@ -3,6 +3,7 @@ from notifications.models import Notification
 from rest_framework import serializers
 from TaskCheckList.models import TaskChecklist, subTaskChecklist
 from CompanyMaintain.models import userDefinedEntity
+from AccountRecList.models import AccountReconciliationList
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -28,4 +29,9 @@ class subTaskChecklistSerializer(serializers.HyperlinkedModelSerializer):
 class userDefinedEntitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = userDefinedEntity
+        fields = '__all__'
+
+class AccountReconciliationListSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = AccountReconciliationList
         fields = '__all__'
