@@ -7,6 +7,7 @@
     1. django
     1. crispy forms
     1. django rest
+    1. openpyxl
     ```
 
     pip install --upgrade django-crispy-forms pandas djangorestframework markdown django notifications
