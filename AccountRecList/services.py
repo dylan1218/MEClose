@@ -11,6 +11,8 @@ def Get_Reconciled_Balance(month, year, entity, accountNumber, pathname):
                 if endingBalanceIdentifier == entry.value:
                     endingBalanceIdentifier_Cell = entry
                     return endingBalanceIdentifier_Cell.offset(row=0, column=-1).value
+                else:
+                    return 0
             except(AttributeError, TypeError):
                 continue
 
