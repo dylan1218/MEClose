@@ -10,6 +10,7 @@ from CompanyMaintain.models import userDefinedEntity
 from CompanyMaintain.choices import periodChoices, statusChoices
 from CompanyMaintain.services import getReviewer
 
+
 class AccountReconciliationListThresholds(models.Model):
     #to reasses whether these fields havethe appropriate types. 
     dollarValueThreshold = models.CharField(max_length=200, default=0)
@@ -22,13 +23,13 @@ class AccountReconciliationList(models.Model):
 
     accountNumber = models.CharField(max_length=50)
     accountDescription = models.CharField(max_length=200)
-    accountBalance = models.IntegerField(max_length=200, default=0)
-    accountBalanceReconciled = models.IntegerField(max_length=200, default=0)
-    accountBalancePriorMonth = models.IntegerField(max_length=200, default=0)
+    accountBalance = models.DecimalField(max_digits=17, decimal_places=2, default=0)
+    accountBalanceReconciled = models.DecimalField(max_digits=17, decimal_places=2, default=0)
+    accountBalancePriorMonth = models.DecimalField(max_digits=17, decimal_places=2, default=0)
     accountClosePeriod = models.DateField(("As of balance date"), default=datetime.date.today)
     reconciliationOwnerId = models.ForeignKey(User, on_delete=models.CASCADE) #to evaluate if this actually works
     reconciliationStatus = models.CharField(max_length=2, choices = statusChoices)
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField(('date published'), default=datetime.date.today)
     due_date = models.DateField(("Due Date"), default=datetime.date.today)
     entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, related_name="entity_AccountReconciliationList", default=1)
     approvalStatus = models.BooleanField(default=False)
@@ -71,6 +72,7 @@ class AccountReconciliationList(models.Model):
         reviewerUser = getReviewer(self.reconciliationOwnerId, self.entity)
         return reviewerUser.get_reviewer
     
+    
     @property
     def reconciliationRequired(self):
         percentChangeThreshold = int(AccountReconciliationListThresholds.objects.all().first().dollarValueThreshold)
@@ -79,6 +81,8 @@ class AccountReconciliationList(models.Model):
         #converts the 0 string to an interger if the string is equal to 0. 0 indicates the user does not want a filter for specific accounts.
         if excludedAccounts == "0":
             excludedAccounts = int(excludedAccounts)
+
+        #Note: for all conditions if zero for current, AND prior month -- then not required
 
         #first condition is if client does not want any thresholds
         if percentChangeThreshold == 0 and dollarChangeThreshold == 0 and excludedAccounts == 0:

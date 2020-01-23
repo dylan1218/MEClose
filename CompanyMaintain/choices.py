@@ -35,6 +35,13 @@ periodChoices = (
     (11, "November"),
     (12, "December"),
 )
+
+periodChoices = (
+    ("Opened", "Opened"),
+    ("Closed", "Closed"),
+    ("Late Entry", "Late Entry"),
+)
+
 binaryChoice = (
     ("Yes", "Yes"),
     ("No", "No"),

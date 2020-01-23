@@ -1,11 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import User
+from CompanyMaintain.choices import periodChoices
+import datetime
+
 
 class userDefinedEntity(models.Model):
     entity = models.CharField(max_length=200, default="Select Entity")
     
     def __str__(self):
         return self.entity
+
+#If closeStatus period is closed then all modification of data should be locked during that period
+#this feature/functionality is not implemented yet
+class closeStatus(models.Model):
+    period = models.DateField(("Due Date"), default=datetime.date.today)
+    closeStatus = models.CharField(max_length=200, choices=periodChoices, default=periodChoices[0][0])
+    entity = models.ForeignKey(userDefinedEntity, on_delete=models.PROTECT, default=1)
+
+    def __str__(self):
+        return str(self.period) + "-" + str(self.entity) + "-" + str(self.closeStatus)
+
 
 
 class userDefinedTeam(models.Model):

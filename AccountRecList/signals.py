@@ -13,6 +13,8 @@ import os
 def my_callback(sender, **kwargs):
     print("Request finished!")
 
+#get_ReconciledBalance called if attachment is added. Note should include a condition
+#to only call Get_Reconciled_Balance if uploaded file is a .xlsx extension
 @receiver(post_save, sender=AccountReconciliationList)
 def get_ReconciledBalance(sender, instance, **kwargs):
     try:
@@ -29,6 +31,7 @@ def get_ReconciledBalance(sender, instance, **kwargs):
         currentAccountRec.approverComments = reconciledBalanceGet
         currentAccountRec.save()
         '''
+#Adds a notification for a user if they are added to an account
 @receiver(pre_save, sender=AccountReconciliationList)
 def notifications_AccountReconciliationList(sender, instance, **kwargs):
     try:
