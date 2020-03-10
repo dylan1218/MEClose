@@ -24,7 +24,7 @@ class TaskChecklist(models.Model):
     taskTBMapping = models.CharField(max_length=200, default="Not Assigned") #For assigning tasks to a TB FSLI
     taskDescription = models.CharField(max_length=200)
     taskYear = models.IntegerField(max_length=4) 
-    taskPeriod = models.IntegerField(max_length=2, choices = periodChoices)
+    taskPeriod = models.IntegerField(max_length=200, choices = periodChoices)
     taskOccurence = models.CharField(max_length=2, choices = occurenceChoices)
     taskOwnerId = models.ForeignKey(User, on_delete=models.PROTECT) #For documentation purposes we want to preserve who the owner of a task was, and as such protect is utilized to not allow deletion of the referenced object
     isJE = models.CharField(max_length=3, choices=binaryChoice)
@@ -36,7 +36,7 @@ class TaskChecklist(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['taskId', 'entity', 'taskPeriod', 'taskYear'], name='unique_EntityUser')
+            models.UniqueConstraint(fields=['taskId', 'entity', 'taskPeriod', 'taskYear'], name='unique_TaskEntityUser')
         ]
     @property
     def Due_Date(self):
