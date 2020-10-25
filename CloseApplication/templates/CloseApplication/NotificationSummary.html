@@ -1,0 +1,118 @@
+{% extends "CloseApplication/base.html" %}
+{% load staticfiles %}
+{% block extrahead %}
+<script src="{% static 'CloseApplication/customJS/close_summary.js' %}?v=00003"></script>
+<script src="{% static 'CloseApplication/pace.min.js' %}"></script>
+<script src="{% static 'CloseApplication/coreui.min.js' %}?v=00003"></script>
+<script src="{% static 'CloseApplication/Chart.min.js' %}" class="view-script"></script>
+<script src="{% static 'CloseApplication/custom-tooltips.min.js' %}" class="view-script"></script>
+<script src="{% static 'CloseApplication/main.js' %}" class="view-script"></script>
+
+{% endblock %}
+{% block title %}name of the site{% endblock %}
+{% block content %}
+        <div class="app-body">
+          <main class="main">
+            <!-- Breadcrumb-->
+            <div class="container-fluid">
+              <div class="animated fadeIn">
+              <div class="row">
+              <div class="col">
+              <div class="card">
+            <div class="card-body">
+              Notification header
+              </div>
+              </div>
+              </div>
+              </div>
+                <div class="row">
+                    
+        <div class="col-8">
+                    <div class="card">
+                    <div class="card-header">Notifications</div>
+
+  <ul class="list-group list-group-flush">
+  <div class="container">
+  <div class="row">
+  <div class="col border-right border-bottom">
+    <li class="list-group-item">Team: GL</li>
+    </div>
+      <div class="col-9 border-bottom">
+    <li class="list-group-item">Task 123 Assigned to Brian</li>
+    </div>
+    </div>
+    </div>
+   <div class="container">
+  <div class="row">
+  <div class="col border-right border-bottom">
+    <li class="list-group-item">Self</li>
+    </div>
+      <div class="col-9 border-bottom">
+    <li class="list-group-item">You were assigned account rec 12341234</li>
+    </div>
+    </div>
+    </div>
+  <div class="container">
+  <div class="row">
+  <div class="col border-right border-bottom">
+    <li class="list-group-item">Cras justo odio</li>
+    </div>
+      <div class="col-9 border-bottom">
+    <li class="list-group-item">Cras justo odio</li>
+    </div>
+    </div>
+    </div>
+      <div class="container">
+  <div class="row">
+  <div class="col border-right border-bottom">
+    <li class="list-group-item">Cras justo odio</li>
+    </div>
+      <div class="col-9 border-bottom">
+    <li class="list-group-item">Cras justo odio</li>
+    </div>
+    </div>
+    </div>
+      <div class="container">
+  <div class="row">
+  <div class="col border-right border-bottom">
+    <li class="list-group-item">Cras justo odio</li>
+    </div>
+      <div class="col-9 border-bottom">
+    <li class="list-group-item">Cras justo odio</li>
+    </div>
+    </div>
+    </div>
+      <div class="container">
+  <div class="row">
+  <div class="col border-right border-bottom">
+    <li class="list-group-item">Cras justo odio</li>
+    </div>
+      <div class="col-9 border-bottom">
+    <li class="list-group-item">Cras justo odio</li>
+    </div>
+    </div>
+    </div>
+  </ul>
+  
+  
+              
+              </div>
+    </div>
+        <div class="col">
+                    <div class="card">
+                    <div class="card-header">Entity Status</div>
+<ul class="list-group list-group-flush">
+    <li class="list-group-item">Entity 5004 Closed on 9/04/2019</li>
+    <li class="list-group-item">Entity 5004 Opened on 8/01/2019</li>
+  </ul>
+              </div>
+    </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+        <!-- Plugins and scripts required by this view-->
+        <script src="node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js"></script>
+        <script src="js/main.js"></script>
+{% endblock %}

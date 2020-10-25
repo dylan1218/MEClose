@@ -1,0 +1,16 @@
+{% extends "CloseApplication/base.html" %}
+
+{% block title %}Task Checklist{% endblock %}
+{% block content %}
+    
+<h1>Task Update</h1>
+
+<form method="post">
+{% csrf_token %}
+<div class="form-group">
+    {{ form.as_p }}
+</div>
+<input type="submit" value="Submit"/>
+</form>
+
+{% endblock %}

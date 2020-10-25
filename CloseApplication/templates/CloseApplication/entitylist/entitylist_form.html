@@ -1,0 +1,15 @@
+{% load crispy_forms_tags %}
+{% include "CloseApplication/z_formview_template/begin_formview_outline.html" %}
+    <h1 class="mt-2">Entity Update</h1>
+    <hr class="mt-0 mb-4">   
+    <form action="/ClosePortal/entities/update/{{ form.initial.id }}" method="post">
+        {% csrf_token %}
+            {{ form|crispy }
+        {% if perms.entitylist.change %}
+        <input class="submit-btn btn btn-primary" type="submit" value="Submit"/>
+        {% else %}
+        <input class="submit-btn btn btn-secondary" type="submit" value="Submit" disabled/>
+        {% endif %}
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+    </form>
+{% include "CloseApplication/z_formview_template/end_formview_outline.html" %}

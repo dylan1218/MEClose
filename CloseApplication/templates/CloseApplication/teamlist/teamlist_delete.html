@@ -1,0 +1,9 @@
+{% include "CloseApplication/z_formview_template/begin_formview_outline.html" %}
+    <h1 class="mt-2">Team Delete</h1>
+    <hr class="mt-0 mb-4">
+    <form method="post">
+    {% csrf_token %}
+    Are you sure you want to delete this team?
+    <input type="submit" value="Submit"/>
+    </form>
+{% include "CloseApplication/z_formview_template/end_formview_outline.html" %}

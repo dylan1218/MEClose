@@ -1,0 +1,14 @@
+{% load crispy_forms_tags %}
+    {% include "CloseApplication/z_formview_template/begin_formview_outline.html" %}
+        <h1 class="mt-2">Account Detail</h1>
+        <hr class="mt-0 mb-4">   
+        <p>{{ object.taskId }}</p>
+        <p>{{ object.taskDescription }}</p>
+        <p>{{ object.taskPeriod }}</p>
+        <p>{{ object.taskYear }}</p>
+        <p>{{ object.get_taskOccurence_display }}</p>
+        <p>{{ object.taskOwnerId }}</p>
+        <p>{{ object.get_taskStatus_display }}</p>
+        <p>{{ object.isJE }}</p>
+        <p>{{ object.pub_date }}</p>
+    {% include "CloseApplication/z_formview_template/end_formview_outline.html" %}

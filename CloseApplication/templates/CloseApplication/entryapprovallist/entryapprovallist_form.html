@@ -1,0 +1,13 @@
+{% load crispy_forms_tags %}
+{% block content %}
+    {% include "CloseApplication/z_formview_template/begin_formview_outline.html" %}
+    <h1 class="mt-2">Task Update</h1>
+    <hr class="mt-0 mb-4">   
+    <form action="/ClosePortal/entryapprovals/update/{{ form.initial.id }}" method="post">
+        {% csrf_token %}
+            {{ form|crispy }}
+        <input class="submit-btn btn btn-primary" type="submit" value="Submit"/>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </form>
+    {% include "CloseApplication/z_formview_template/end_formview_outline.html" %}
+{% endblock %}

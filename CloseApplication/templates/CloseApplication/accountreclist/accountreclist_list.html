@@ -1,0 +1,81 @@
+{% extends "CloseApplication/base.html" %}
+
+{% block title %}name of the site{% endblock %}
+{% load staticfiles %}
+{% block extrahead %}
+<script src="{% static 'CloseApplication/customJS/accountRecList.js' %}?v=00006"></script>
+{% endblock %}
+{% block content %}
+{% include "CloseApplication/z_listview_template/begin_listview_outline.html" %}
+<div class="modal" id="modal"></div>
+<table class ="table-responsive table-striped table-bordered table-hover" id="accountRecListTable">
+    <thead>
+        <tr>            
+            <th></th>
+            <th>Entity</th>
+            <th>Account Number</th>
+            <th>Account Description</th>
+            <th>Balance for Period</th>
+            <th>Balance for Prior Month</th>
+            <th>Variance</th>
+            <th>Reconciled Status</th>
+            <th>Required</th>
+            <th>Owner</th>
+            <th>Reviewer</th>
+            <th>Approval Status</th>
+            <th>Comments</th>
+            <th>Attachment</td>
+        </tr>
+    </thead>
+    {% for tableValue in AccountReconciliationList_Values %}
+    <tr>
+        <td>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary">
+                Action
+                </button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" id="{{ tableValue.id }}_detail" onclick='return modal_display(this.id)' data-toggle="modal" data-target="#modal" href="/ClosePortal/accountrecs/detail/{{ tableValue.id }}">Detail</a>
+                    <a class="dropdown-item" id="{{ tableValue.id }}_update" onclick='return modal_display(this.id)' data-toggle="modal" data-target="#modal" href="/ClosePortal/accountrecs/update/{{ tableValue.id }}">Edit</a>
+                    <a class="dropdown-item" id="{{ tableValue.id }}_delete" onclick='return modal_display(this.id)' data-toggle="modal" data-target="#modal" href="/ClosePortal/accountrecs/delete/{{ tableValue.id }}">Delete</a>
+                </div>
+            </div>
+        </td>
+        <td>{{ tableValue.entity }}</td>
+        <td>{{ tableValue.accountNumber }}</td>
+        <td>{{ tableValue.accountDescription }}</td>
+        <td>{{ tableValue.accountBalance }}</td>
+        <td>{{ tableValue.accountBalancePriorMonth }}</td> {# Need to create template condition to find previous month value#}
+        <td>{{ tableValue.balanceVarianceMoM }}</td>
+        <td>{{ tableValue.reconciliationStatus }}</td>
+        <td>{{ tableValue.reconciliationRequired }}</td> {# To find a way to let user defined what is required or not #}
+        <td>{{ tableValue.reconciliationOwnerId }}</td>
+        <td>{{ tableValue.reviewer }}</td> {# To find a way to map owner to reviewer #}
+        <td>{{ tableValue.approvalStatus_Description }}</td>
+        <td>{{ tableValue.approverComments }}</td>
+        <td>
+            <form action="#" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p>
+                    {{ form.docfile.errors }}
+                    {{ form.docfile }}
+                    <input type="submit" value="Upload"/>
+                </p>
+                
+                <p>
+                <input type="hidden" name="list_pk" value="{{ tableValue.id }}"/>
+                </p>
+                <a class="btn btn-primary" href="{{ MEDIA_URL }}/{{ tableValue.docfile }}">
+                Download Attachment
+                </a>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}            
+</table>
+{% include "CloseApplication/z_listview_template/end_listview_outline.html" %}
+{% endblock %}

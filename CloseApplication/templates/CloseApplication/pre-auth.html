@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block styles %}
+    {% endblock %}
+
+    {% load static %}
+    {# site wide JS and CSS #}
+    <script src="{% static 'CloseApplication/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'CloseApplication/popper.min.js' %}"></script>
+    <script src="{% static 'CloseApplication/bootstrap.min.js' %}"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'CloseApplication/customCSS/login.css' %}">
+
+    {# utilize these tags to specify template specific css and js #}
+    {% block extrahead %}{% endblock extrahead %}
+    {% block extra_js %}{% endblock extra_js %}
+
+</head>
+
+<body>
+
+      
+    <div class="page-wrap">
+        <div class="animated fadeIn">
+        {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <footer class="site-footer">
+            I will find something to put here.
+    </footer>
+</body>
+</html>

@@ -4,8 +4,15 @@
 1. python 3+
 1. git
 1. pip
-    1. django1. pip
-    1. todo
+    1. django
+    1. crispy forms
+    1. django rest
+    1. openpyxl
+    ```
+
+    pip install --upgrade django-crispy-forms pandas djangorestframework markdown django notifications
+    pip install django-notifications-hq
+    ```
 
 ## Windows setup
 1. Install git - https://gitforwindows.org/
@@ -49,4 +56,5 @@ note: refer to the admin panel at http://127.0.0.1:8000/admin
 login: admin_brian
 
 password: password
+
 

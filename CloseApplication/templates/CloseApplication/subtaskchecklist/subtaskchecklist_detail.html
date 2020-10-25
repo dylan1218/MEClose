@@ -1,0 +1,11 @@
+{% extends "CloseApplication/base.html" %}
+
+{% block title %}Task Checklist{% endblock %}
+{% block content %}
+    
+    <p>{{ object.taskId }}</p>
+    <p>{{ object.subTaskNumber }}</p>
+    <p>{{ object.subTaskDescription }}</p>
+    <p>{{ object.subTaskStatus }}</p>
+
+{% endblock %}

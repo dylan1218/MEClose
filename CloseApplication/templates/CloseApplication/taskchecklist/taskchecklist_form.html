@@ -1,0 +1,20 @@
+{% load crispy_forms_tags %}
+{% block content %}
+    {% include "CloseApplication/z_formview_template/begin_formview_outline.html" %}
+    <h1 class="mt-2">Task Update</h1>
+    <hr class="mt-0 mb-4">   
+    <form action="/ClosePortal/tasks/update/{{ form.initial.id }}" method="post">
+        {% csrf_token %}
+            {{ form|crispy }}
+        {% if perms.taskchecklist.change %}
+        <input class="submit-btn btn btn-primary" type="submit" value="Submit"/>
+        {% else %}
+        <div class="alert alert-danger" role="alert">
+            User {{ user.username }} is not authorized to update tasks
+        </div>
+        <input class="submit-btn btn btn-secondary" type="submit" value="Submit" disabled/>
+        {% endif %}
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+    </form>
+    {% include "CloseApplication/z_formview_template/end_formview_outline.html" %}
+{% endblock %}

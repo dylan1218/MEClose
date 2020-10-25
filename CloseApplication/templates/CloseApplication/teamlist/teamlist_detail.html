@@ -1,0 +1,9 @@
+{% load crispy_forms_tags %}
+    {% include "CloseApplication/z_formview_template/begin_formview_outline.html" %}
+    <h1 class="mt-2">Team Detail</h1>
+    <hr class="mt-0 mb-4"> 
+    <p>{{ object.entity }}</p>
+    <p>{{ object.team }}</p>
+    <p>{{ object.teamOwner }}</p>
+
+    {% include "CloseApplication/z_formview_template/end_formview_outline.html" %}

@@ -1,0 +1,37 @@
+/*
+.page-wrap{
+    z-index: 1;
+}
+
+th {
+    background: #0B6FA4;
+    border-bottom: 5px solid #FFFFFF;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    color: white;
+}
+
+.MonthEndTaskChecklistTable table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+.open-button {
+    background-color: #555;
+    color: white;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: relative;
+  }
+  */
