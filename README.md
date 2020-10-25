@@ -57,7 +57,4 @@ login: admin_brian
 
 password: password
 
-1. added permission test user 
 
-login: noperm
-password: N0Perm1234
