@@ -53,7 +53,7 @@ Note: you'll need to have python installed for this step
 
 note: refer to the admin panel at http://127.0.0.1:8000/admin
 
-login: admin_brian
+login: admin_dylan
 
 password: password
 
