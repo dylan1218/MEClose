@@ -1,0 +1,6 @@
+django == 2.2
+django-notifications-hq
+openpyxl
+djangorestframework
+notifications
+django-crispy-forms
