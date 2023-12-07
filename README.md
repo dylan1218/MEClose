@@ -1,4 +1,5 @@
 # MonthEndClose
+It's another SAAS hopeful (but failed)! Manage your accounting close tasks, accounting reconciliations, and journal entry approvals - all in one user friendly UI.
 
 ## Prerequisites
 1. python 3+
